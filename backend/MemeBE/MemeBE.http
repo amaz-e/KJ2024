@@ -1,0 +1,6 @@
+@MemeBE_HostAddress = http://localhost:5021
+
+GET {{MemeBE_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
