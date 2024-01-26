@@ -1,6 +1,8 @@
 let connection;
+let playerName = localStorage.getItem('playerName');
 
 $(document).ready(function () {
+    $('#player-name-input').val(playerName);
     initServer();
 });
 
@@ -11,8 +13,8 @@ function initServer() {
         .build();
 
     connectToServer();
-    initMethods();
-
+    initReceiveMethods();
+    initSendMethods();
 }
 
 function connectToServer() {
@@ -21,16 +23,30 @@ function connectToServer() {
     });
 }
 
-function initMethods(){
+function initReceiveMethods(){
     connection.on("ReceiveMessage", function (user, message) {
         const msg = user + " mówi: " + message;
         const li = document.createElement("li");
         li.textContent = msg;
         document.getElementById("games-list").appendChild(li);
     });
+}
 
-    document.getElementById("sendButton").addEventListener("click", function (event) {
-        connection.invoke("SendMessage", "Wise", "(nie)lubię Cię!").catch(function (err) {
+function initSendMethods(){
+    document.getElementById("createRoomButton").addEventListener("click", function (event) {
+        playerName = $('#player-name-input').val();
+        localStorage.setItem('playerName', playerName);
+        connection.invoke("CreateGame", playerName).catch(function (err) {
+            return console.error(err.toString());
+        });
+        event.preventDefault();
+    });
+
+    document.getElementById("joinRoomButton").addEventListener("click", function (event) {
+        roomID = $('#room-id-input').val();
+        playerName = $('#player-name-input').val();
+        localStorage.setItem('playerName', playerName);
+        connection.invoke("JoinRoom", playerName, roomID).catch(function (err) {
             return console.error(err.toString());
         });
         event.preventDefault();
