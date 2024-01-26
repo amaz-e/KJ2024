@@ -53,4 +53,14 @@ function initSendMethods(){
     });
 }
 
+function switchToLobby(){
+    $('#lobby').show();
+    $('#room').hide();
+}
+
+function switchToRoom(){
+    $('#lobby').hide();
+    $('#room').show();
+}
+
 
