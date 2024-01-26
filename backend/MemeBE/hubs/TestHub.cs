@@ -10,7 +10,6 @@ namespace MemeBE.hubs
     {
         public async Task SendMessage(string user, string message)
         {
-            var trololol = 0;
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
     }
