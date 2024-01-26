@@ -31,3 +31,5 @@
 /Users/other/KrakJam2024/KJ2024/backend/MemeBE/obj/Debug/net8.0/MemeBE.pdb
 /Users/other/KrakJam2024/KJ2024/backend/MemeBE/obj/Debug/net8.0/MemeBE.genruntimeconfig.cache
 /Users/other/KrakJam2024/KJ2024/backend/MemeBE/obj/Debug/net8.0/ref/MemeBE.dll
+/Users/other/KrakJam2024/KJ2024/backend/MemeBE/bin/Debug/net8.0/Newtonsoft.Json.dll
+/Users/other/KrakJam2024/KJ2024/backend/MemeBE/bin/Debug/net8.0/System.Net.WebSockets.WebSocketProtocol.dll
