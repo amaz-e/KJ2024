@@ -19,15 +19,15 @@ function initServer() {
 
 function connectToServer() {
     connection.start().then(() => {
-        $('#createRoomButton').attr('disabled', 'disabled');
-        $('#joinRoomButton').attr('disabled', 'disabled');
+        $('#createRoomButton').removeAttr('disabled', 'disabled');
+        $('#joinRoomButton').removeAttr('disabled', 'disabled');
     }).catch(function (err) {
         return console.error("connectToServer :: " + err.toString());
     });
 
     connection.onclose(error => {
-        $('#createRoomButton').removeAttr('disabled');
-        $('#joinRoomButton').removeAttr('disabled');
+        $('#createRoomButton').attr('disabled');
+        $('#joinRoomButton').attr('disabled');
     });
 }
 
@@ -51,7 +51,7 @@ function initReceiveMethods() {
     });
 
     connection.on("NewPlayerJoinedToRoom", function (playerName) {
-        console.log("Player " + playerName + "joined to room!")
+        console.log("Player " + playerName + "joined to the room!")
     });
 }
 
