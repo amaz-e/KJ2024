@@ -43,6 +43,15 @@ public class GameHub : Hub
         }
         else
         {
+            var player = new Player(Context.ConnectionId, playerName);
+            var result = room.AddPlayer(player);
+
+            if (!result.Sucess)
+            {
+                await Clients.Caller.SendAsync("LobbyError", result.Message);
+                return;
+            }
+            
             await Groups.AddToGroupAsync(Context.ConnectionId, nextRoomID.ToString());
             await Clients.Caller.SendAsync("JoinedToRoom", nextRoomID);
             await Clients.OthersInGroup(roomID.ToString()).SendAsync("NewPlayerJoinedToRoom", playerName);
