@@ -48,6 +48,10 @@ function initReceiveMethods() {
         showLobbyErrorMessage(message);
     });
 
+    connection.on("RoomError", function (message) {
+        addToGameLog("<div class='color: red'>" + message + "</div>");
+    });
+
     connection.on("ReceiveMessage", function (user, message) {
         const msg = user + " mówi: " + message;
         const li = document.createElement("li");
@@ -55,12 +59,17 @@ function initReceiveMethods() {
         document.getElementById("games-list").appendChild(li);
     });
 
-    connection.on("JoinedToRoom", function (user, message) {
+    connection.on("JoinedToRoom", function (roomID, isOwner) {
         switchToRoom();
+        $("[data-type='roomID']").text("#" + roomID);
+        if(isOwner){
+            $("#startGameButton").show();
+        }
     });
 
     connection.on("NewPlayerJoinedToRoom", function (playerName) {
-        addToGameLog("Player " + playerName + " joined to the room!")
+        addToGameLog("Player " + playerName + " joined to the room!");
+        addPlayerZone(playerName);
     });
 }
 
@@ -79,6 +88,13 @@ function initSendMethods() {
         playerName = $('#player-name-input').val();
         localStorage.setItem('playerName', playerName);
         connection.invoke("JoinRoom", playerName, roomID).catch(function (err) {
+            return console.error(err.toString());
+        });
+        event.preventDefault();
+    });
+
+    document.getElementById("startGameButton").addEventListener("click", function (event) {
+        connection.invoke("StartGame").catch(function (err) {
             return console.error(err.toString());
         });
         event.preventDefault();
@@ -109,4 +125,16 @@ function showLobbyErrorMessage(message) {
     $("#lobbyErrorMessage").text(message);
 }
 
+function addPlayerZone(playerName){
+    const playerZone = document.getElementById('playersZones');
+
+    const playerDiv = document.createElement('div');
+    playerDiv.className = 'player';
+
+    const nameElement = document.createElement('h2');
+    nameElement.textContent = playerName;
+
+    playerDiv.appendChild(nameElement);
+    playerZone.appendChild(playerDiv);
+}
 
