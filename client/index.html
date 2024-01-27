@@ -8,10 +8,10 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.9/signalr.min.js"></script>
     <script src="//code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="/static/js/main.js"></script>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
-<div id="lobby">
+<div id="lobby" style="display: none;">
     <h1>GaMeme List</h1>
     <div id="games-list"></div>
 
@@ -22,12 +22,30 @@
     <div id="lobbyErrorMessage"></div>
 </div>
 
-<div id="room">
+<div id="room" style="display: inline;">
     ROOM CONTAINER <span data-type="roomID"></span>
 
     <button id="startGameButton">Start Game</button>
 
     <div id="playersZones"></div>
+
+    <div id="playerZone">
+        <div id="playerData">
+            <h2 id="playerName">PlayerName</div>
+            <h3 id="playerHP">10</div>
+            <h3 id="playerScore">0</div>
+        </div>
+        <div id="playerHand">
+            <div id="card">
+                <img src="mem.jpg"></img>
+            </div>
+        </div>
+        <div id="playerPersistentCards">
+            <div id="card">
+                <img src="mem.jpg"></img>
+            </div>
+        </div>
+    </div>
 
     <div id="gameLog">
         <ul>

@@ -69,8 +69,24 @@ html, body {
 #playersZones  .player {
     flex-grow: 1;
     margin: 15px;
+    text-align: center;	
+	border: 1px;
+	border-style: solid;
 }
 
-#playersZones  .player {
-    text-align: center;
+#playerZone {
+
+    background-color: rgba(255,255,255, .5);
+}
+
+#playerHand {
+
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+
+#card {
+    flex: 0 0;
 }
