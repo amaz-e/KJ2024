@@ -101,12 +101,12 @@ body {
 }
 
 #playersZones .player {
-    background: linear-gradient(rgba(221,71,73, .6), rgba(42,178,217, .6) );
+    background: linear-gradient(rgba(221,71,73, .6), rgba(18, 77, 94, 0.6) );
 
     flex-grow: 1;
     margin: 10px;
     text-align: center;	
-	border: 1px;
+	border: 0px;
 	border-style: solid;
 }
 
@@ -129,12 +129,13 @@ body {
 }
 
 #startGameButton {
-    background: linear-gradient(rgba(221,71,73, .6), rgba(42,178,217, .6) );
+    background: linear-gradient(rgba(221,71,73, .6), rgba(18, 77, 94, 0.6) );
     font-family: 'Honk', sans-serif;
     font-size: 36pt;
     cursor: pointer;
     padding: 15px 35px;
     border-radius: 5px;
+    border: 0px;
 }
 
 
