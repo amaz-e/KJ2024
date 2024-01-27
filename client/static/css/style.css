@@ -66,11 +66,52 @@ html, body {
     flex-direction: row;
 }
 
-#playersZones  .player {
+#playersZones .player {
     flex-grow: 1;
     margin: 15px;
+    text-align: center;	
+	border: 1px;
+	border-style: solid;
 }
 
-#playersZones  .player {
-    text-align: center;
+
+#playerZone {
+    margin-bottom: 0px;
+    width: 80%;
+    margin-left: 0px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background-color:rgba(240, 240, 120, .6);
+}
+
+
+
+#playerZone .playerData {
+    flex: 0.5;
+    padding: 20px;
+}
+
+#playerZone .playerRow {
+    flex: 1;
+    width: auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.card-container {
+    display: flex;
+    flex-direction: row;
+    background-color: #e0e0e0;
+}
+
+.card img{
+    max-width:80px;
+    margin: 10px;
+    padding: 10px;
+    
+}
+
+.card img:hover{
+    transform: scale(2.5); 
 }

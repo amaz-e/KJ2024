@@ -135,7 +135,14 @@ function addPlayerZone(playerName){
     const nameElement = document.createElement('h2');
     nameElement.textContent = playerName;
 
+    const laughElement = document.createElement('h2');
+    laughElement.textContent = 0;   
+    const playerHandDiv = document.createElement('div');
+    playerHandDiv.className = 'playerHandCards';
+
     playerDiv.appendChild(nameElement);
+    playerDiv.appendChild(laughElement);
+    playerDiv.appendChild(playerHandDiv);  
     playerZone.appendChild(playerDiv);
 }
 
