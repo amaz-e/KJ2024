@@ -18,8 +18,16 @@ function initServer() {
 }
 
 function connectToServer() {
-    connection.start().catch(function (err) {
+    connection.start().then(() => {
+        $('#createRoomButton').attr('disabled', 'disabled');
+        $('#joinRoomButton').attr('disabled', 'disabled');
+    }).catch(function (err) {
         return console.error("connectToServer :: " + err.toString());
+    });
+
+    connection.onclose(error => {
+        $('#createRoomButton').removeAttr('disabled');
+        $('#joinRoomButton').removeAttr('disabled');
     });
 }
 
@@ -54,7 +62,7 @@ function initSendMethods(){
     });
 
     document.getElementById("joinRoomButton").addEventListener("click", function (event) {
-        roomID = $('#room-id-input').val();
+        let roomID = $('#room-id-input').val();
         playerName = $('#player-name-input').val();
         localStorage.setItem('playerName', playerName);
         connection.invoke("JoinRoom", playerName, roomID).catch(function (err) {
