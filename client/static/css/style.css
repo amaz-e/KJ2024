@@ -41,3 +41,7 @@ html, body {
     border: 1px solid gray;
     z-index: 1;
 }
+
+#gameLog ul {
+    list-style: none;
+}
