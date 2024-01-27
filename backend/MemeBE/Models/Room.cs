@@ -20,14 +20,15 @@ public class Room
         RoomId = roomID;
         Owner = owner;
         Players = new Dictionary<string, Player>();
-
-        Deck = new Deck();
     }
     public void InitGame()
     {
-        //TODO stworzenie talli
+        //stworzenie talli
+        Deck = new Deck();
         
-        //TODO wygenerowanie kolejki
+        // Wylosowanie początkowych kart dla graczy
+        
+        // wygenerowanie kolejki
         Random rng = new Random();
         PlayerQueue = new Queue<Player>(Players.Values.OrderBy(p => rng.Next()));
         //TODO ustawienie aktywnego gracza
@@ -48,8 +49,16 @@ public class Room
         Players.Add(player.ConnectionID, player);
         return Result.Ok("Connected to room");
     }
-    
-    
+
+    public Result DrawCard(out Card cardDrawn)
+    {
+        cardDrawn = Deck.DrawCard();
+        if (cardDrawn == null)
+        {
+            return Result.Fail("No more cards in deck");
+        }
+        return Result.Ok();
+    }
     
     public bool ContainsPlayerWithNick(string nick)
     {

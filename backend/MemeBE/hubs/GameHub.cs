@@ -83,16 +83,18 @@ public class GameHub : Hub
             room.GameStarted = true;
             room.InitGame();
             
+            
             await Clients.Group(room.RoomId).SendAsync("GameStarted");
             
-            foreach (var player in room.Players)
+            foreach (var player in room.Players.Values)
             {
                 //TODO Zainicjuj gre dla kaźdego gracza
-                //player.DrawInitCards();
-                
+                for (int i = 0; i < 6; i++)
+                {
+                    CardDrawn(player, room);
 
+                }
             }
-            
         }
         else
         {
@@ -100,6 +102,28 @@ public class GameHub : Hub
         }
 
         
+    }
+
+    public async Task CardDrawn(Player player, Room room)
+    {
+        var isDeckEmpty = room.DrawCard(out Card card).Sucess;
+        if (!isDeckEmpty)
+        {
+            GameEnded(room);
+        }
+        else
+        {
+            await Clients.Client(player.ConnectionID)
+                .SendAsync("CardDrawn", card.DeckId, card.URL, card.Target);
+            player.AddCardToHand(card);
+        }
+    }
+
+    public async Task GameEnded(Room room)
+    {
+        // Oblicz osteateczne wartosci i przekaz do frontu
+        await Clients.Group(room.RoomId)
+            .SendAsync("GameEnded");
     }
     public List<Player> GetOtherPlayers(Room room, string connId)
     {

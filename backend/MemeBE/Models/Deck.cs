@@ -8,18 +8,24 @@ public class Deck
     public Deck()
     {
         deckCards = PrepareDeckCards(Helpers.Cards);
-        
-
     }
 
     private Queue<Card> PrepareDeckCards(List<Card> cards)
     {
-                
-        //CHANGEME 
-        //TODO Transformacja tabeli kart na DECK do gry
-        // Dodaj ilosci odpowiednich kart
-        // Szufluj
-        return new Queue<Card>(cards);
+        int deckId = 1;
+        Queue<Card> result = new Queue<Card>();
+        foreach (var card in cards)
+        {
+            card.DeckId = deckId;
+            deckId++;
+            result.Enqueue(card);
+            result.Enqueue(card);
+        }
+        
+        Random rng = new Random();
+        result = new Queue<Card>(cards.OrderBy(p => rng.Next()));
+        
+        return result;
     }
 
     public Card? DrawCard()
