@@ -51,7 +51,7 @@ function initReceiveMethods() {
     });
 
     connection.on("NewPlayerJoinedToRoom", function (playerName) {
-        console.log("Player " + playerName + "joined to the room!")
+        addToGameLog("Player " + playerName + "joined to the room!")
     });
 }
 
