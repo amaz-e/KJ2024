@@ -9,6 +9,7 @@ $(document).ready(function () {
 function initServer() {
     connection = new signalR.HubConnectionBuilder()
         .withUrl("https://memethegatheringapi.azurewebsites.net/GameHub")
+        .withAutomaticReconnect()
         .configureLogging(signalR.LogLevel.Information)
         .build();
 
@@ -19,15 +20,15 @@ function initServer() {
 
 function connectToServer() {
     connection.start().then(() => {
-        $('#createRoomButton').attr('disabled', 'disabled');
-        $('#joinRoomButton').attr('disabled', 'disabled');
+        $('#createRoomButton').removeAttr('disabled', 'disabled');
+        $('#joinRoomButton').removeAttr('disabled', 'disabled');
     }).catch(function (err) {
         return console.error("connectToServer :: " + err.toString());
     });
 
     connection.onclose(error => {
-        $('#createRoomButton').removeAttr('disabled');
-        $('#joinRoomButton').removeAttr('disabled');
+        $('#createRoomButton').attr('disabled');
+        $('#joinRoomButton').attr('disabled');
     });
 }
 
@@ -37,6 +38,10 @@ function initReceiveMethods() {
         const li = document.createElement("li");
         li.textContent = msg;
         document.getElementById("games-list").appendChild(li);
+    });
+
+    connection.on("ReceiveServerRoomMessage", function (message) {
+        addToGameLog(message);
     });
 
     connection.on("ReceiveMessage", function (user, message) {
@@ -51,7 +56,7 @@ function initReceiveMethods() {
     });
 
     connection.on("NewPlayerJoinedToRoom", function (playerName) {
-        console.log("Player " + playerName + "joined to room!")
+        addToGameLog("Player " + playerName + "joined to the room!")
     });
 }
 
