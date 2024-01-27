@@ -9,6 +9,7 @@ $(document).ready(function () {
 function initServer() {
     connection = new signalR.HubConnectionBuilder()
         .withUrl("https://memethegatheringapi.azurewebsites.net/GameHub")
+        .withAutomaticReconnect()
         .configureLogging(signalR.LogLevel.Information)
         .build();
 
@@ -37,6 +38,10 @@ function initReceiveMethods() {
         const li = document.createElement("li");
         li.textContent = msg;
         document.getElementById("games-list").appendChild(li);
+    });
+
+    connection.on("ReceiveServerRoomMessage", function (message) {
+        addToGameLog(message);
     });
 
     connection.on("ReceiveMessage", function (user, message) {
