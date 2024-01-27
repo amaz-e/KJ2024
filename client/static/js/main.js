@@ -8,7 +8,7 @@ $(document).ready(function () {
 
 function initServer() {
     connection = new signalR.HubConnectionBuilder()
-        .withUrl("https://578d-87-206-130-93.ngrok-free.app/TestHub")
+        .withUrl("https://578d-87-206-130-93.ngrok-free.app/GameHub")
         .configureLogging(signalR.LogLevel.Information)
         .build();
 
@@ -30,13 +30,24 @@ function initReceiveMethods(){
         li.textContent = msg;
         document.getElementById("games-list").appendChild(li);
     });
+
+    connection.on("ReceiveMessage", function (user, message) {
+        const msg = user + " mówi: " + message;
+        const li = document.createElement("li");
+        li.textContent = msg;
+        document.getElementById("games-list").appendChild(li);
+    });
+
+    connection.on("JoinedToRoom", function (user, message) {
+        switchToRoom();
+    });
 }
 
 function initSendMethods(){
     document.getElementById("createRoomButton").addEventListener("click", function (event) {
         playerName = $('#player-name-input').val();
         localStorage.setItem('playerName', playerName);
-        connection.invoke("CreateGame", playerName).catch(function (err) {
+        connection.invoke("CreateRoom", playerName).catch(function (err) {
             return console.error(err.toString());
         });
         event.preventDefault();
