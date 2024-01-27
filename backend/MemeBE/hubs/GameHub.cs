@@ -183,6 +183,8 @@ public class GameHub : Hub
                     
                 }
             }
+
+            EndTurn(room);
         }
     }
     public async Task EndTurn(Room room)
