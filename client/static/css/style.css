@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Honk&display=swap');
 
 html{
 
@@ -41,6 +42,8 @@ body {
 
 #lobby h1 {
     text-align: center;
+    font-family: 'Honk', sans-serif;
+    font-size: 16pt;
 }
 
 
@@ -60,7 +63,7 @@ body {
     right: 0px;
     bottom: 10px;
     width: 100%;
-    max-width: 200px;
+    max-width: 350px;
     border: 1px solid gray;
     z-index: 1;
 }
@@ -128,8 +131,6 @@ body {
 }
 
 .card-container {
-    display: flex;
-    flex-direction: row;
     background-color: rgba(255, 255, 255, .2);
     border-radius: 5px;
     min-height: 150px;
@@ -140,16 +141,18 @@ body {
     margin: 5px;
     overflow: hidden;
     border-radius: 6px;
+    display: inline-block;
 
 }
 .card img {
+    display: block;
     max-width: 100%;
 }
 
 
 .card.selected {
     border: 2px solid aqua;
-    transform: scale(1.8);
+    transform: scale(1.1);
 }
 
 .card-preview {
@@ -169,4 +172,8 @@ body {
 
 .card-preview img {
     width: 350px;
+}
+
+.other.player.focus {
+    border: 3px solid aqua !important;
 }
