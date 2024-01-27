@@ -4,7 +4,7 @@ namespace MemeBE.hubs;
 
 public class GameHub : Hub
 {
-    private int nextRoomID = 1;
+    private static int nextRoomID = 1;
     
     public async Task SendMessage(string user, string message)
     {
@@ -13,12 +13,13 @@ public class GameHub : Hub
 
     public async Task CreateRoom(string playerName)
     {
-        await JoinRoom(playerName, nextRoomID);
+        await JoinRoom(playerName, nextRoomID.ToString());
         nextRoomID++;
     }
 
-    public async Task JoinRoom(string playerName, int roomID)
+    public async Task JoinRoom(string playerName, string roomIDstr)
     {
+        int roomID = Int32.Parse(roomIDstr);
         await Groups.AddToGroupAsync(Context.ConnectionId, nextRoomID.ToString());
         await Clients.Caller.SendAsync("JoinedToRoom", nextRoomID);
         await Clients.OthersInGroup(roomID.ToString()).SendAsync("NewPlayerJoinedToRoom", playerName);
