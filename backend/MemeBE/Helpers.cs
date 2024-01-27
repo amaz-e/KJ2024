@@ -28,8 +28,11 @@ public class Helpers
             // Assuming the CSV format is: FirstName,LastName,Age
             int.TryParse(columns[0], out int id);
             var displayName = columns[1];
+            var effectList = columns[2];
+            int.TryParse(columns[3], out int target);
 
-            var person = new Card(id, displayName);
+
+            var person = new Card(id, displayName, effectList, target); 
             cardList.Add(person);
         }
 

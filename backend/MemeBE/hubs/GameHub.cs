@@ -59,7 +59,7 @@ public class GameHub : Hub
             playerRoomMap.Add(player.ConnectionID, room);
             
             await Groups.AddToGroupAsync(Context.ConnectionId, room.RoomId);
-            await Clients.Caller.SendAsync("JoinedToRoom", room.RoomId, room.Owner.Equals(playerName), room.Players.Values.Select(player => player.Nick).ToList());
+            await Clients.Caller.SendAsync("JoinedToRoom", room.RoomId, room.Owner.Equals(playerName), GetOtherPlayers(room, player.ConnectionID).Select(player => player.Nick).ToList());
             await Clients.OthersInGroup(roomID.ToString()).SendAsync("NewPlayerJoinedToRoom", playerName);
         }
     }
@@ -91,5 +91,11 @@ public class GameHub : Hub
         {
             await Clients.Caller.SendAsync("RoomError", "You are not the room owner, budy... how did You get that button ?");
         }
+
+        
+    }
+    public List<Player> GetOtherPlayers(Room room, string connId)
+    {
+        return room.Players.Values.Where(player => player.ConnectionID != connId).ToList();
     }
 }
