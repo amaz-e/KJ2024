@@ -49,3 +49,8 @@ html, body {
 #gameLog ul li {
     margin: 5px;
 }
+
+#lobbyErrorMessage {
+    color: red;
+    font-weight: bold;
+}

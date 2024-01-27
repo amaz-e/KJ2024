@@ -44,6 +44,10 @@ function initReceiveMethods() {
         addToGameLog(message);
     });
 
+    connection.on("LobbyError", function (message) {
+        showLobbyErrorMessage(message);
+    });
+
     connection.on("ReceiveMessage", function (user, message) {
         const msg = user + " mówi: " + message;
         const li = document.createElement("li");
@@ -56,7 +60,7 @@ function initReceiveMethods() {
     });
 
     connection.on("NewPlayerJoinedToRoom", function (playerName) {
-        addToGameLog("Player " + playerName + "joined to the room!")
+        addToGameLog("Player " + playerName + " joined to the room!")
     });
 }
 
@@ -84,17 +88,25 @@ function initSendMethods() {
 function switchToLobby() {
     $('#lobby').show();
     $('#room').hide();
+    window.onbeforeunload = null;
 }
 
 function switchToRoom() {
     $('#lobby').hide();
     $('#room').show();
+    window.onbeforeunload = function() {
+        return "Are you sure you want to leave this page?";
+    };
 }
 
 function addToGameLog(message) {
     let li = document.createElement("li");
     li.textContent = message;
     document.querySelector("#gameLog ul").appendChild(li);
+}
+
+function showLobbyErrorMessage(message) {
+    $("#lobbyErrorMessage").text(message);
 }
 
 
