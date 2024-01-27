@@ -178,13 +178,13 @@ public class GameHub : Hub
     }
     public async Task EndTurn(Room room)
     {
+        await Clients.Client(room.ActivePlayer.ConnectionID).SendAsync("TurnEnd");
         await Clients.Group(room.RoomId)
             .SendAsync("ReceiveServerRoomMessage", room.ActivePlayer.Nick + " - turn Ended");
         
-        room.ActivePlayer = room.NextPlayer();
-        
         if (room.GameStarted)
         {
+            room.ActivePlayer = room.NextPlayer();
             NextTurn(room);
         }
         else
