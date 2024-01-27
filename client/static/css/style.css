@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 html, body {
-    background: goldenrod;
+    background:  rgb(42,178,217);
     font-family: 'Roboto', sans-serif;
 
     padding: 0;
@@ -24,7 +24,7 @@ html, body {
     display: none;
     width: 100%;
     height: 100%;
-    background: pink;
+    background: linear-gradient(rgb(221,71,73), rgb(42,178,217) );
     z-index: 0;
 }
 
@@ -76,13 +76,15 @@ html, body {
 
 
 #playerZone {
-    margin-bottom: 0px;
+    position: absolute;
+    bottom: 0;
     width: 80%;
     margin-left: 0px;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    background-color:rgba(240, 240, 120, .6);
+    background-color:rgba(57, 64, 77, .6);
+    padding: 15px;
 }
 
 
@@ -102,7 +104,8 @@ html, body {
 .card-container {
     display: flex;
     flex-direction: row;
-    background-color: #e0e0e0;
+    background-color: rgba(255,255,255, .2);
+    border-radius: 5px;
 }
 
 .card img{
