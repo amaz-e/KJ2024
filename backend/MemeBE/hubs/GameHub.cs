@@ -89,10 +89,15 @@ public class GameHub : Hub
     public async Task StartGame()
     {
         
+        
          if (!playerRoomMap.TryGetValue(Context.ConnectionId, out var room))
         {
             await Clients.Caller.SendAsync("RoomError", "Failed to start the game... but you are a talented one this error is hard to reach good for You");
         }
+         else if (room.Players.Count < 2)
+         {
+             await Clients.Caller.SendAsync("RoomError", "You want to play with yourself? Perv...");
+         }
          else if (room.GameStarted)
          {
              await Clients.Caller.SendAsync("RoomError", "You cannot start what is already in motion...");
