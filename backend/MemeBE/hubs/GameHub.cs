@@ -34,6 +34,11 @@ public class GameHub : Hub
 
     public async Task CreateRoom(string playerName)
     {
+        if (string.IsNullOrEmpty(playerName.Trim()))
+        {
+            await Clients.Caller.SendAsync("LobbyError", "Pick a better name... or any name at least");
+            return;
+        }
         // Assign room id and incerement value for the next one
         var currentRoomId = nextRoomID.ToString();
         nextRoomID++;
@@ -48,7 +53,11 @@ public class GameHub : Hub
 
     public async Task JoinRoom(string playerName, string roomID)
     {
-        
+        if (string.IsNullOrEmpty(playerName.Trim()))
+        {
+            await Clients.Caller.SendAsync("LobbyError", "Pick a better name... or any name at least");
+            return;
+        }
         var isRoomCreated = rooms.TryGetValue(roomID, out var room);
         if (!isRoomCreated)
         {
