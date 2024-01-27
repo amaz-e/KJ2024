@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Honk&display=swap');
 
 html{
 
@@ -11,7 +12,7 @@ html{
 body {
     background-image: url("../../Background.webp");
     background-attachment: fixed;
-    background-size: 100%;
+    background-size: cover;
     height: 95%;
 }
 
@@ -41,16 +42,19 @@ body {
 
 #lobby h1 {
     text-align: center;
+    font-family: 'Honk', sans-serif;
+    font-size: 36pt;
 }
 
 
 #room {
     display: none;
+    flex-direction: column;
     position: relative;
     overflow: hidden;
     width: 100%;
     height: 100%;
-    background: linear-gradient(rgb(221,71,73), rgb(42,178,217) );
+    background: linear-gradient(rgba(221,71,73, .6), rgba(42,178,217, .6) );
     z-index: 0;
     padding: 10px;
     box-sizing: border-box;
@@ -60,9 +64,13 @@ body {
     right: 0px;
     bottom: 10px;
     width: 100%;
-    max-width: 200px;
+    max-width: 350px;
     border: 1px solid gray;
     z-index: 1;
+}
+
+#roomIDContainer {
+    padding: 10px;
 }
 
 #gameLog ul {
@@ -87,13 +95,14 @@ body {
 }
 
 #playersZones {
-    width: 80%;
     height: 250px;
     display: flex;
     flex-direction: row;
 }
 
 #playersZones .player {
+    background: linear-gradient(rgba(221,71,73, .6), rgba(42,178,217, .6) );
+
     flex-grow: 1;
     margin: 10px;
     text-align: center;	
@@ -101,17 +110,42 @@ body {
 	border-style: solid;
 }
 
+#playersZones .player:before {
+    left:5px;
+    background-image: url("../../playericon.png");
+}
+
+.middle {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+.middle .lastMessage {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#startGameButton {
+    background: linear-gradient(rgba(221,71,73, .6), rgba(42,178,217, .6) );
+    font-family: 'Honk', sans-serif;
+    font-size: 36pt;
+    cursor: pointer;
+    padding: 15px 35px;
+    border-radius: 5px;
+}
+
 
 #playerZone {
-   position: absolute;
     bottom: 10px;
-    width: calc(100% - 240px);
-    right: 240px;
-    left: 10px;
+    box-sizing: border-box;
+    margin: 0px;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    background-color:rgba(57, 64, 77, .6);
+    /*background-color:rgba(57, 64, 77, .8);*/
     padding: 15px;
 }
 
@@ -128,11 +162,14 @@ body {
 }
 
 .card-container {
-    display: flex;
-    flex-direction: row;
-    background-color: rgba(255, 255, 255, .2);
+    background: linear-gradient(rgba(221, 110, 112, 0.3), rgba(33, 130, 156, 0.3) );
     border-radius: 5px;
     min-height: 150px;
+
+    display: flex;
+    overflow-x: auto;
+    height: 150px;
+    width: 100%;
 }
 
 .card {
@@ -140,16 +177,19 @@ body {
     margin: 5px;
     overflow: hidden;
     border-radius: 6px;
+    display: inline-block;
+    flex: 0 0 auto;
 
 }
+
 .card img {
+    display: block;
     max-width: 100%;
 }
 
-
 .card.selected {
     border: 2px solid aqua;
-    transform: scale(1.8);
+    transform: scale(1.1);
 }
 
 .card-preview {
@@ -169,4 +209,8 @@ body {
 
 .card-preview img {
     width: 350px;
+}
+
+.other.player.focus {
+    border: 3px solid aqua !important;
 }

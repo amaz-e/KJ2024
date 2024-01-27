@@ -1,6 +1,8 @@
 let connection;
 let playerName = localStorage.getItem('playerName');
 let yourTurn = false;
+let cmdInProgress = false;
+let selectedCard = null;
 
 $(document).ready(function () {
     $('#player-name-input').val(playerName);
@@ -9,8 +11,8 @@ $(document).ready(function () {
 
 function initServer() {
     connection = new signalR.HubConnectionBuilder()
-        // .withUrl("https://memethegatheringapi.azurewebsites.net/GameHub")
-        .withUrl("https://578d-87-206-130-93.ngrok-free.app/GameHub")
+        .withUrl("https://memethegatheringapi.azurewebsites.net/GameHub")
+        // .withUrl("https://578d-87-206-130-93.ngrok-free.app/GameHub")
         .withAutomaticReconnect()
         .configureLogging(signalR.LogLevel.Information)
         .build();
@@ -63,7 +65,7 @@ function initReceiveMethods() {
 
     connection.on("JoinedToRoom", function (roomID, isOwner, otherPlayers) {
         switchToRoom();
-        $("[data-type='roomID']").text("#" + roomID);
+        $("[data-type='roomID']").text(roomID);
         if (isOwner) {
             $("#startGameButton").show();
         }
@@ -91,12 +93,17 @@ function initReceiveMethods() {
 
         newDiv.appendChild(newImg);
 
-        const parentElement = document.querySelector('.card-container');
+        const parentElement = document.querySelector('#playerHand .card-container');
         parentElement.appendChild(newDiv);
     });
 
     connection.on("TurnStarted", function () {
         yourTurn = true;
+    });
+
+    connection.on("TurnEnd", function () {
+        yourTurn = false;
+        removeAllSelectedOnCard();
     });
 }
 
@@ -128,19 +135,59 @@ function initSendMethods() {
     });
 
     $('#playerHand').on('click', '.card', function () {
-        if (yourTurn) {
-            $('.card.selected').removeClass('selected');
-            $(this).addClass('selected');
+        disabledSelectPlayerMode();
+        if (yourTurn === true) {
+            let card = $(this);
+            if(card.data('target') === 1){
+                connection.invoke("SendCard", card.data('deck-id'), "Enemy").catch(function (err) {
+                    return console.error(err.toString());
+                });
+            } else {
+                removeAllSelectedOnCard();
+                $(this).addClass('selected');
+                enableSelectPlayerMode(card);
+            }
         }
     });
+
+    $('#playersZones').on('click', '.other.player', function () {
+        let enemyName = $(this).data('player-name');
+        if(selectedCard != null){
+            connection.invoke("SendCard", selectedCard.data('deck-id'), enemyName).catch(function (err) {
+                return console.error(err.toString());
+            });
+        }
+        disabledSelectPlayerMode();
+
+    });
+
+
 
     $('#playerZone').on('mouseenter', '.card', function () {
         showCardPreview(this, true);
     });
 
+    $('.otherPlayerPersistentCards').on('mouseenter', '.card', function () {
+        showCardPreview(this, false);
+    });
+
     $(document).on('mouseleave', '.card', function () {
         hideCardPreview();
     });
+}
+
+function removeAllSelectedOnCard(){
+    $('.card.selected').removeClass('selected');
+}
+
+function enableSelectPlayerMode(card){
+    selectedCard = card;
+    $('.other.player').addClass('focus');
+}
+
+function disabledSelectPlayerMode(){
+    removeAllSelectedOnCard();
+    $('.other.player').removeClass('focus');
 }
 
 function switchToLobby() {
@@ -152,7 +199,7 @@ function switchToLobby() {
 
 function switchToRoom() {
     $('#lobby').hide();
-    $('#room').show();
+    $('#room').css('display', 'flex');
     window.onbeforeunload = function () {
         return "Are you sure you want to leave this page?";
     };
@@ -165,22 +212,23 @@ function addToGameLog(message) {
 }
 
 function showLobbyErrorMessage(message) {
-    $("#lobbyErrorMessage").text(message);
+    $("#lobbyErrorMessage").html(message);
 }
 
 function addPlayerZone(playerName) {
     const playerZone = document.getElementById('playersZones');
 
     const playerDiv = document.createElement('div');
-    playerDiv.className = 'player';
+    playerDiv.className = 'other player';
+    playerDiv.setAttribute('data-player-name', playerName);
 
     const nameElement = document.createElement('h2');
     nameElement.textContent = playerName;
 
     const laughElement = document.createElement('h2');
-    laughElement.textContent = 0;
+    laughElement.textContent = "LP: " + 0;
     const playerHandDiv = document.createElement('div');
-    playerHandDiv.className = 'playerHandCards';
+    playerHandDiv.className = 'otherPlayerPersistentCards';
 
     playerDiv.appendChild(nameElement);
     playerDiv.appendChild(laughElement);
