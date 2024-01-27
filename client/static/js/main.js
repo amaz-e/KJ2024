@@ -72,6 +72,21 @@ function initReceiveMethods() {
         addToGameLog("Player " + playerName + " joined to the room!");
         addPlayerZone(playerName);
     });
+
+    connection.on("CardDrawn", function (deckId, url, target) {
+        const newDiv = document.createElement('div');
+        newDiv.className = 'card';
+        newDiv.setAttribute('data-target', target);
+        newDiv.setAttribute('data-deck-id', deckId);
+
+        const newImg = document.createElement('img');
+        newImg.src = url;
+
+        newDiv.appendChild(newImg);
+
+        const parentElement = document.querySelector('.card-container');
+        parentElement.appendChild(newDiv);
+    });
 }
 
 function initSendMethods() {
