@@ -59,12 +59,13 @@ function initReceiveMethods() {
         document.getElementById("games-list").appendChild(li);
     });
 
-    connection.on("JoinedToRoom", function (roomID, isOwner) {
+    connection.on("JoinedToRoom", function (roomID, isOwner, otherPlayers) {
         switchToRoom();
         $("[data-type='roomID']").text("#" + roomID);
         if(isOwner){
             $("#startGameButton").show();
         }
+        otherPlayers.forEach((playerName) => addPlayerZone(playerName));
     });
 
     connection.on("NewPlayerJoinedToRoom", function (playerName) {
