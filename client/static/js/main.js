@@ -8,7 +8,7 @@ $(document).ready(function () {
 
 function initServer() {
     connection = new signalR.HubConnectionBuilder()
-        .withUrl("https://578d-87-206-130-93.ngrok-free.app/GameHub")
+        .withUrl("https://memethegatheringapi.azurewebsites.net")
         .configureLogging(signalR.LogLevel.Information)
         .build();
 
@@ -49,6 +49,10 @@ function initReceiveMethods() {
     connection.on("JoinedToRoom", function (user, message) {
         switchToRoom();
     });
+
+    connection.on("NewPlayerJoinedToRoom", function (playerName) {
+        console.log("Player " + playerName + "joined to room!")
+    });
 }
 
 function initSendMethods() {
@@ -80,6 +84,12 @@ function switchToLobby() {
 function switchToRoom() {
     $('#lobby').hide();
     $('#room').show();
+}
+
+function addToGameLog(message) {
+    let li = document.createElement("li");
+    li.textContent = message;
+    document.querySelector("#gameLog ul").appendChild(li);
 }
 
 
