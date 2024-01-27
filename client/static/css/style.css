@@ -101,11 +101,18 @@ body {
 }
 
 #playersZones .player {
+    background: linear-gradient(rgba(221,71,73, .6), rgba(42,178,217, .6) );
+
     flex-grow: 1;
     margin: 10px;
     text-align: center;	
 	border: 1px;
 	border-style: solid;
+}
+
+#playersZones .player:before {
+    left:5px;
+    background-image: url("../../playericon.png");
 }
 
 .middle {
@@ -122,7 +129,7 @@ body {
 }
 
 #startGameButton {
-    background: transparent;
+    background: linear-gradient(rgba(221,71,73, .6), rgba(42,178,217, .6) );
     font-family: 'Honk', sans-serif;
     font-size: 36pt;
     cursor: pointer;
@@ -155,7 +162,7 @@ body {
 }
 
 .card-container {
-    background-color: rgba(255, 255, 255, .2);
+    background: linear-gradient(rgba(221, 110, 112, 0.3), rgba(33, 130, 156, 0.3) );
     border-radius: 5px;
     min-height: 150px;
 
