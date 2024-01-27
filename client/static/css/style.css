@@ -29,14 +29,15 @@ html, body {
     height: 100%;
     background: linear-gradient(rgb(221,71,73), rgb(42,178,217) );
     z-index: 0;
+    padding: 10px;
 }
 
 #gameLog {
     position: absolute;
-    right: -240px;
+    right: 0px;
     bottom: 10px;
     width: 100%;
-    max-width: 240px;
+    max-width: 200px;
     height: 100%;
     max-height: 350px;
     border: 1px solid gray;
@@ -71,7 +72,7 @@ html, body {
 
 #playersZones .player {
     flex-grow: 1;
-    margin: 15px;
+    margin: 10px;
     text-align: center;	
 	border: 1px;
 	border-style: solid;
@@ -81,7 +82,8 @@ html, body {
 #playerZone {
    position: absolute;
     bottom: 10px;
-    margin-right: 240px;
+    width: 100% -240px;
+    right: 240px;
     left: 10px;
     display: flex;
     justify-content: space-between;
@@ -111,13 +113,17 @@ html, body {
     border-radius: 5px;
 }
 
-.card img{
-    max-width:80px;
+.card {
+    width: 100px;
+
     margin: 5px;
     padding: 5px;
     
+} 
+.card img {
+    max-width: 100%;    
 }
 
-.card img:hover{
+.card:hover{
     transform: scale(2.8); 
 }
