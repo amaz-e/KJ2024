@@ -2,25 +2,29 @@ namespace MemeBE.Models;
 
 public class Deck
 {
-    private List<Card> deckCards { get; set; }
+    private Queue<Card> deckCards { get; set; }
     
-    private List<Card> cardTable;
     
-
     public Deck()
     {
-        cardTable = Helpers.Cards;
+        deckCards = PrepareDeckCards(Helpers.Cards);
+        
 
+    }
+
+    private Queue<Card> PrepareDeckCards(List<Card> cards)
+    {
+                
+        //CHANGEME 
         //TODO Transformacja tabeli kart na DECK do gry
         // Dodaj ilosci odpowiednich kart
         // Szufluj
-
-        deckCards = null;
+        return new Queue<Card>(cards);
     }
 
     public Card? DrawCard()
     {
-        return null;
+        return deckCards.Dequeue();
     }
     
     

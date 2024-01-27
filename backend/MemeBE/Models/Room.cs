@@ -23,7 +23,17 @@ public class Room
 
         Deck = new Deck();
     }
+    public void InitGame()
+    {
+        //TODO stworzenie talli
+        
+        //TODO wygenerowanie kolejki
+        Random rng = new Random();
+        PlayerQueue = new Queue<Player>(Players.Values.OrderBy(p => rng.Next()));
+        //TODO ustawienie aktywnego gracza
+        ActivePlayer = NextPlayer();
 
+    }
     public Result AddPlayer(Player player)
     {
         //TODO: Add Validation
@@ -52,17 +62,7 @@ public class Room
         return Players.Values.First(player => player.ConnectionID.Equals(connId));
     }
 
-    public void InitGame()
-    {
-        //TODO stworzenie talli
-        
-        //TODO wygenerowanie kolejki
-        Random rng = new Random();
-        PlayerQueue = new Queue<Player>(Players.Values.OrderBy(p => rng.Next()));
-        //TODO ustawienie aktywnego gracza
-        ActivePlayer = NextPlayer();
 
-    }
     
     public Player NextPlayer()
     {

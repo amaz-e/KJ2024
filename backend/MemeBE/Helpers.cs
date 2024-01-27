@@ -22,18 +22,19 @@ public class Helpers
         var lines = File.ReadAllLines(filePath);
 
         // Skip the header row and start processing from the first data row
-        for (int i = 1; i < lines.Length; i++)
+        for (int i = 0; i < lines.Length; i++)
         {
-            var columns = lines[i].Split(',');
+            var columns = lines[i].Split(';');
 
             // Assuming the CSV format is: FirstName,LastName,Age
             int.TryParse(columns[0], out int id);
             var displayName = columns[1];
-            var effectList = columns[2];
-            int.TryParse(columns[3], out int target);
+            var url = columns[2];
+            var effectList = columns[3];
+            int.TryParse(columns[4], out int target);
 
 
-            var person = new Card(id, displayName, effectList, target); 
+            var person = new Card(id, displayName, url, effectList, target); 
             cardList.Add(person);
         }
 
