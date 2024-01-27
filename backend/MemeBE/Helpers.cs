@@ -8,9 +8,10 @@ public class Helpers
     
     public static void ParseCardsFromCSV()
     {
-        string filePath = @"cards.csv";
+        
+        string filePath = @"./cards.csv";
         var cardList = new List<Card>();
-
+        
         // Check if the file exists
         if (!File.Exists(filePath))
         {

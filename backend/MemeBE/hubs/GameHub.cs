@@ -12,7 +12,14 @@ public class GameHub : Hub
 
     public GameHub()
     {
-        Helpers.ParseCardsFromCSV();
+        try
+        {
+            Helpers.ParseCardsFromCSV();
+        }
+        catch
+        {
+            Console.WriteLine("CSV NOT FOUND");
+        }
     }
     public async Task SendMessage(string user, string message)
     {
