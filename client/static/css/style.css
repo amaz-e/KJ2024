@@ -110,7 +110,7 @@ body {
 	border-style: solid;
 }
 
-#playersZones .player:before {
+ .player::before {
     left:5px;
     background-image: url("../../playericon.png");
 }
