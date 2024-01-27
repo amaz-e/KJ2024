@@ -6,12 +6,13 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>Meme The Gathering</title>
     <script src="//cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.9/signalr.min.js"></script>
-    <script src="//code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="//code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
     <script src="/static/js/main.js"></script>
     <link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
-<div id="lobby" >
+<div id="lobby">
     <h1>GaMeme List</h1>
     <div id="games-list"></div>
     <input type="text" id="player-name-input" placeholder="Player Name"/>
@@ -21,7 +22,6 @@
     <div id="lobbyErrorMessage"></div>
 </div>
 
-<div id="room" >
 <div id="room">
     ROOM CONTAINER <span data-type="roomID"></span>
 
@@ -46,27 +46,30 @@
         <div id="playerHand" class="playerRow">
             <h3>Player Hand</h3>
             <div class="card-container">
-            <div class="card">
-                <img src="mem.jpg"></img>
-            </div>
-            <div class="card">
-                <img src="mem.jpg"></img>
-            </div>
-            <div class="card">
-                <img src="mem.jpg"></img>
-            </div>
-            <div class="card">
-                <img src="mem.jpg"></img>
-            </div>
+                <div class="card">
+                    <img src="mem.jpg"></img>
+                </div>
+                <div class="card">
+                    <img src="mem.jpg"></img>
+                </div>
+                <div class="card">
+                    <img src="mem.jpg"></img>
+                </div>
+                <div class="card">
+                    <img src="mem.jpg"></img>
+                </div>
             </div>
         </div>
-        
+
+    </div>
 </div>
+
 <div id="gameLog">
     <ul>
 
     </ul>
 </div>
+
 
 </body>
 </html>
