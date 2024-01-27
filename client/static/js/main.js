@@ -1,5 +1,6 @@
 let connection;
 let playerName = localStorage.getItem('playerName');
+let yourTurn = true;
 
 $(document).ready(function () {
     $('#player-name-input').val(playerName);
@@ -62,7 +63,7 @@ function initReceiveMethods() {
     connection.on("JoinedToRoom", function (roomID, isOwner, otherPlayers) {
         switchToRoom();
         $("[data-type='roomID']").text("#" + roomID);
-        if(isOwner){
+        if (isOwner) {
             $("#startGameButton").show();
         }
         otherPlayers.forEach((playerName) => addPlayerZone(playerName));
@@ -71,6 +72,10 @@ function initReceiveMethods() {
     connection.on("NewPlayerJoinedToRoom", function (playerName) {
         addToGameLog("Player " + playerName + " joined to the room!");
         addPlayerZone(playerName);
+    });
+
+    connection.on("GameStarted", function (playerName) {
+        $("#startGameButton").hide();
     });
 
     connection.on("CardDrawn", function (deckId, url, target) {
@@ -86,6 +91,10 @@ function initReceiveMethods() {
 
         const parentElement = document.querySelector('.card-container');
         parentElement.appendChild(newDiv);
+    });
+
+    connection.on("TurnStarted", function () {
+        yourTurn = true;
     });
 }
 
@@ -115,6 +124,15 @@ function initSendMethods() {
         });
         event.preventDefault();
     });
+
+    $('#playerHand').on('click', '.card', function () {
+        if (yourTurn) {
+            $('.card.selected').removeClass('selected');
+            $(this).addClass('selected');
+        } else {
+            addToGameLog("Bujaj sie");
+        }
+    });
 }
 
 function switchToLobby() {
@@ -126,7 +144,7 @@ function switchToLobby() {
 function switchToRoom() {
     $('#lobby').hide();
     $('#room').show();
-    window.onbeforeunload = function() {
+    window.onbeforeunload = function () {
         return "Are you sure you want to leave this page?";
     };
 }
@@ -141,7 +159,7 @@ function showLobbyErrorMessage(message) {
     $("#lobbyErrorMessage").text(message);
 }
 
-function addPlayerZone(playerName){
+function addPlayerZone(playerName) {
     const playerZone = document.getElementById('playersZones');
 
     const playerDiv = document.createElement('div');
@@ -151,13 +169,12 @@ function addPlayerZone(playerName){
     nameElement.textContent = playerName;
 
     const laughElement = document.createElement('h2');
-    laughElement.textContent = 0;   
+    laughElement.textContent = 0;
     const playerHandDiv = document.createElement('div');
     playerHandDiv.className = 'playerHandCards';
 
     playerDiv.appendChild(nameElement);
     playerDiv.appendChild(laughElement);
-    playerDiv.appendChild(playerHandDiv);  
+    playerDiv.appendChild(playerHandDiv);
     playerZone.appendChild(playerDiv);
 }
-

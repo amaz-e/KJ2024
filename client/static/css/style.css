@@ -15,6 +15,7 @@ html, body {
     height: 100%;
     z-index: 100;
     padding: 20px;
+    box-sizing: border-box;
 }
 
 #lobby h1 {
@@ -30,6 +31,7 @@ html, body {
     background: linear-gradient(rgb(221,71,73), rgb(42,178,217) );
     z-index: 0;
     padding: 10px;
+    box-sizing: border-box;
 }
 
 #gameLog {
@@ -82,7 +84,7 @@ html, body {
 #playerZone {
    position: absolute;
     bottom: 10px;
-    width: 100% -240px;
+    width: calc(100% - 240px);
     right: 240px;
     left: 10px;
     display: flex;
@@ -91,8 +93,6 @@ html, body {
     background-color:rgba(57, 64, 77, .6);
     padding: 15px;
 }
-
-
 
 #playerZone .playerData {
     flex: 0.5;
@@ -109,21 +109,30 @@ html, body {
 .card-container {
     display: flex;
     flex-direction: row;
-    background-color: rgba(255,255,255, .2);
+    background-color: rgba(255, 255, 255, .2);
     border-radius: 5px;
 }
 
 .card {
     width: 100px;
-
     margin: 5px;
-    padding: 5px;
-    
-} 
+    overflow: hidden;
+    border-radius: 6px;
+
+}
 .card img {
-    max-width: 100%;    
+    max-width: 100%;
 }
 
 .card:hover{
-    transform: scale(2.8); 
+    transform: scale(2.8);
+}
+
+#playerZone .card:hover{
+    margin-bottom: -100px;
+}
+
+.card.selected {
+    border: 2px solid aqua;
+    transform: scale(1.8);
 }
