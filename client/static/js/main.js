@@ -65,7 +65,7 @@ function initReceiveMethods() {
 
     connection.on("JoinedToRoom", function (roomID, isOwner, otherPlayers) {
         switchToRoom();
-        $("[data-type='roomID']").text("#" + roomID);
+        $("[data-type='roomID']").text(roomID);
         if (isOwner) {
             $("#startGameButton").show();
         }
@@ -199,7 +199,7 @@ function switchToLobby() {
 
 function switchToRoom() {
     $('#lobby').hide();
-    $('#room').show();
+    $('#room').css('display', 'flex');
     window.onbeforeunload = function () {
         return "Are you sure you want to leave this page?";
     };
