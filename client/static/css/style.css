@@ -74,6 +74,7 @@ html, body {
 	border-style: solid;
 }
 
+
 #playerZone {
     margin-bottom: 0px;
     width: 80%;
@@ -84,12 +85,14 @@ html, body {
     background-color:rgba(240, 240, 120, .6);
 }
 
-.playerData {
+
+
+#playerZone .playerData {
     flex: 0.5;
     padding: 20px;
 }
 
-.playerRow {
+#playerZone .playerRow {
     flex: 1;
     width: auto;
     padding: 20px;
