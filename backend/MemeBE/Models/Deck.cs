@@ -19,7 +19,6 @@ public class Deck
             card.DeckId = deckId;
             deckId++;
             result.Enqueue(card);
-            result.Enqueue(card);
         }
         
         Random rng = new Random();
