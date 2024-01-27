@@ -31,7 +31,7 @@ function connectToServer() {
     });
 }
 
-function initReceiveMethods(){
+function initReceiveMethods() {
     connection.on("ReceiveMessage", function (user, message) {
         const msg = user + " mówi: " + message;
         const li = document.createElement("li");
@@ -51,7 +51,7 @@ function initReceiveMethods(){
     });
 }
 
-function initSendMethods(){
+function initSendMethods() {
     document.getElementById("createRoomButton").addEventListener("click", function (event) {
         playerName = $('#player-name-input').val();
         localStorage.setItem('playerName', playerName);
@@ -72,12 +72,12 @@ function initSendMethods(){
     });
 }
 
-function switchToLobby(){
+function switchToLobby() {
     $('#lobby').show();
     $('#room').hide();
 }
 
-function switchToRoom(){
+function switchToRoom() {
     $('#lobby').hide();
     $('#room').show();
 }
