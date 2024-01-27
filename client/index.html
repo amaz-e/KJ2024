@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>Meme The Gathering</title>
+    <title>Meme: The Gathering</title>
     <script src="//cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.9/signalr.min.js"></script>
     <script src="//code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
             crossorigin="anonymous"></script>
@@ -13,21 +13,32 @@
 </head>
 <body>
 <div id="lobby">
-    <h1>GaMeme List</h1>
+    <h1>Meme: The Gathering</h1>
     <div id="games-list"></div>
     <input type="text" id="player-name-input" placeholder="Player Name"/>
-    <button id="createRoomButton" disabled="disabled">CREATE ROOM</button>
     <input type="text" id="room-id-input" placeholder="Room ID"/>
     <button id="joinRoomButton" disabled="disabled">JOIN</button>
+    <button id="createRoomButton" disabled="disabled">CREATE ROOM</button>
+
     <div id="lobbyErrorMessage"></div>
 </div>
 
 <div id="room">
+    <div class="card-preview">
+        <img src="url_do_twojego_obrazka.jpg" alt="Twój obrazek">
+    </div>
+
     ROOM CONTAINER <span data-type="roomID"></span>
 
     <button id="startGameButton">Start Game</button>
 
     <div id="playersZones"></div>
+
+    <div id="gameLog">
+        <ul>
+
+        </ul>
+    </div>
 
     <div id="playerZone">
         <div id="playerData" class="playerData">
@@ -39,7 +50,7 @@
             <h3>Player Cards</h3>
             <div class="card-container">
                 <div class="card">
-                    <img src="mem.jpg"></img>
+                    <img src="mem.jpg">
                 </div>
             </div>
         </div>
@@ -47,16 +58,16 @@
             <h3>Player Hand</h3>
             <div class="card-container">
                 <div class="card">
-                    <img src="mem.jpg"></img>
+                    <img src="mem.jpg">
                 </div>
                 <div class="card">
-                    <img src="mem.jpg"></img>
+                    <img src="mem.jpg">
                 </div>
                 <div class="card">
-                    <img src="mem.jpg"></img>
+                    <img src="mem.jpg">
                 </div>
                 <div class="card">
-                    <img src="mem.jpg"></img>
+                    <img src="mem.jpg">
                 </div>
             </div>
         </div>
@@ -64,11 +75,6 @@
     </div>
 </div>
 
-<div id="gameLog">
-    <ul>
-
-    </ul>
-</div>
 
 
 </body>

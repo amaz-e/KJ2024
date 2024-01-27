@@ -1,6 +1,6 @@
 let connection;
 let playerName = localStorage.getItem('playerName');
-let yourTurn = true;
+let yourTurn = false;
 
 $(document).ready(function () {
     $('#player-name-input').val(playerName);
@@ -9,7 +9,8 @@ $(document).ready(function () {
 
 function initServer() {
     connection = new signalR.HubConnectionBuilder()
-        .withUrl("https://memethegatheringapi.azurewebsites.net/GameHub")
+        // .withUrl("https://memethegatheringapi.azurewebsites.net/GameHub")
+        .withUrl("https://578d-87-206-130-93.ngrok-free.app/GameHub")
         .withAutomaticReconnect()
         .configureLogging(signalR.LogLevel.Information)
         .build();
@@ -66,6 +67,7 @@ function initReceiveMethods() {
         if (isOwner) {
             $("#startGameButton").show();
         }
+        $("#playerName").text(playerName);
         otherPlayers.forEach((playerName) => addPlayerZone(playerName));
     });
 
@@ -129,9 +131,15 @@ function initSendMethods() {
         if (yourTurn) {
             $('.card.selected').removeClass('selected');
             $(this).addClass('selected');
-        } else {
-            addToGameLog("Bujaj sie");
         }
+    });
+
+    $('#playerZone').on('mouseenter', '.card', function () {
+        showCardPreview(this, true);
+    });
+
+    $(document).on('mouseleave', '.card', function () {
+        hideCardPreview();
     });
 }
 
@@ -140,6 +148,7 @@ function switchToLobby() {
     $('#room').hide();
     window.onbeforeunload = null;
 }
+
 
 function switchToRoom() {
     $('#lobby').hide();
@@ -177,4 +186,18 @@ function addPlayerZone(playerName) {
     playerDiv.appendChild(laughElement);
     playerDiv.appendChild(playerHandDiv);
     playerZone.appendChild(playerDiv);
+}
+
+function showCardPreview(card, player= false){
+    if(player){
+        $(".card-preview").addClass('player');
+    } else {
+        $(".card-preview").removeClass('player');
+    }
+    $(".card-preview").show();
+    $(".card-preview img").attr('src', $('img', card).attr('src'));
+}
+
+function hideCardPreview() {
+    $(".card-preview").hide();
 }
