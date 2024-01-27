@@ -70,7 +70,10 @@ public class Room
     {
         return Players.Values.First(player => player.ConnectionID.Equals(connId));
     }
-
+    public Player GetPlayerByNick(string nick)
+    {
+        return Players.Values.First(player => player.Nick.Equals(nick));
+    }
 
     
     public Player NextPlayer()

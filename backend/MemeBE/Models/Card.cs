@@ -40,5 +40,5 @@ public class Card
 public class Effect
 {
     public string EffectName { get; set; }
-    public int? Value { get; set; }
+    public int Value { get; set; }
 }
