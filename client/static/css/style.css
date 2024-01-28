@@ -13,10 +13,11 @@ body {
     background-image: url("../../Background.webp");
     background-attachment: fixed;
     background-size: cover;
-    height: 95%;
+    height: 98%;
 }
 
 #lobby {
+    
     background:  rgba(42,178,217, .6);    
     position: relative;
     width: 100%;
@@ -26,6 +27,10 @@ body {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+}
+
+.game-title {
+    margin-top: 210px;
 }
 
 #lobby button, #lobby input {
@@ -191,6 +196,7 @@ body {
     display: flex;
     height: 150px;
     width: 100%;
+    overflow-x: auto;
 }
 
 .card {
