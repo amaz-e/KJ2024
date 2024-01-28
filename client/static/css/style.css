@@ -112,7 +112,7 @@ body {
 }
 
 #playersZones {
-    height: 230px;
+    height: 200px;
     display: flex;
     flex-direction: row;
 }
@@ -125,7 +125,7 @@ body {
 #playersZones .player {
     background: linear-gradient(rgba(221,71,73, .6), rgba(18, 77, 94, 0.6) );
     max-width: 33%;
-    height: 230px;
+    height: 200px;
     flex-grow: 1;
     margin: 10px;
     text-align: center;	
