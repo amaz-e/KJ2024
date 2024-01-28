@@ -17,14 +17,15 @@ public class GameHub : Hub
         {
             Helpers.ParseCardsFromCSV();
         }
-        catch
+        catch(Exception ex)
         {
-            Console.WriteLine("CSV NOT FOUND");
+            Console.WriteLine(ex.Message);
         }
     }
     public async Task SendMessage(string user, string message)
     {
         await Clients.All.SendAsync("ReceiveMessage", user, message);
+        Console.WriteLine("SendMessage - sent");
     }
     
     public async Task GetRooms()
@@ -49,6 +50,7 @@ public class GameHub : Hub
         
         //Response
         await JoinRoom(playerName, currentRoomId.ToString());
+        Console.WriteLine("Room created by " + playerName + ", room id " + room.RoomId);
     }
 
     public async Task JoinRoom(string playerName, string roomID)
@@ -194,7 +196,7 @@ public class GameHub : Hub
                     PlacePersistentCard(room, activeCard, targetNick);
 
                     // poinformuj wszystkich ze tej karty juz neima 
-                    Clients.Group(room.RoomId).SendAsync("RemoveCard", cardId);
+                    Clients.Group(room.RoomId).SendAsync("RemoveCard", cardId, true);
                 }
             }
             room.ActivePlayer.CardsOnHand.Remove(activeCard);
@@ -202,6 +204,7 @@ public class GameHub : Hub
     }
     public async Task EndTurn(Room room)
     {
+        Console.WriteLine("End turn - start");
         await Clients.Client(room.ActivePlayer.ConnectionID).SendAsync("TurnEnd");
         await Clients.Group(room.RoomId)
             .SendAsync("ReceiveServerRoomMessage", room.ActivePlayer.Nick + " - turn Ended");
@@ -211,6 +214,7 @@ public class GameHub : Hub
             DrawCard(room.ActivePlayer, room);
             room.ActivePlayer = room.NextPlayer();
             NextTurn(room);
+            
         }
         else
         {
@@ -219,6 +223,7 @@ public class GameHub : Hub
     }
     public async Task DrawCard(Player player, Room room)
     {
+        Console.WriteLine("DrawCard " + player.Nick + " room: " +room.RoomId);
         var isDeckEmpty = room.DrawCard(out Card card).Sucess;
         if (!isDeckEmpty)
         {
@@ -234,6 +239,7 @@ public class GameHub : Hub
 
     public async Task GameEnded(Room room)
     {
+        Console.WriteLine("GameEnd - start");
         // Oblicz osteateczne wartosci i przekaz do frontu
         await Clients.Group(room.RoomId)
             .SendAsync("GameEnded");
