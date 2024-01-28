@@ -12,7 +12,7 @@ $(document).ready(function () {
 function initServer() {
     connection = new signalR.HubConnectionBuilder()
         .withUrl("https://memethegatheringapi.azurewebsites.net/GameHub")
-        // .withUrl("https://578d-87-206-130-93.ngrok-free.app/GameHub")
+        // .withUrl("https://578d-87-206-130-93.ngrok-free.app/GameHub") test
         .withAutomaticReconnect()
         .configureLogging(signalR.LogLevel.Information)
         .build();
