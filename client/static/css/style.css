@@ -123,6 +123,7 @@ body {
 #playersZones .player {
     background: linear-gradient(rgba(221,71,73, .6), rgba(18, 77, 94, 0.6) );
     max-width: 33%;
+    height: 250px;
     flex-grow: 1;
     margin: 10px;
     text-align: center;	
@@ -130,7 +131,7 @@ body {
 	border-style: solid;
 }
 
- .player::before {
+#playersZones .player::before {
     left:5px;
     background-image: url("../../playericon.png");
 }
@@ -139,6 +140,17 @@ body {
     text-align: left;
     font-family: 'Honk', sans-serif;
     font-size: 22px;;
+}
+
+.points {
+    margin-left: 30px;
+    text-align: right;
+    font-family: 'Honk', sans-serif;
+    font-size: 22px;;
+}
+
+.laughIcon {
+    background-image: url("../../smilewb.png");
 }
 
 .middle {
