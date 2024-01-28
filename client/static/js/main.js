@@ -126,6 +126,10 @@ function initReceiveMethods() {
         ShowEndGameScreen(message);
     });
 
+    connection.on("LastCard", function (url) {
+        ShowLastPlayedCard(url);
+    });
+
     connection.on("TurnStarted", function () {
         yourTurn = true;
     });
@@ -294,6 +298,13 @@ function PlacePersistentCard(deckId, url, target, owner) {
         const parentElement = document.querySelector('#playersZones .other.player[data-player-name="' + target + '"] .otherPlayerPersistentCards');
         parentElement.appendChild(card);
     }
+}
+
+function ShowLastPlayedCard(url){
+    let card = CreateCard('', url, '');
+
+     document.querySelector('#lastCard').innerHTML = card.innerHTML;
+
 }
 
 function RemoveCard(deckId, handOnly) {
