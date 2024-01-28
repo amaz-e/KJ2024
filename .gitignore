@@ -27,7 +27,7 @@
 .vs/
 obj/
 bin/
-
+*.dll
 # Gradle cache directory
 .gradle/
 
