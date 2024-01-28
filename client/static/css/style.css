@@ -1,25 +1,254 @@
-html, body {
-    background: goldenrod;
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Honk&display=swap');
 
+html{
+
+    font-family: 'Roboto', sans-serif;
     padding: 0;
     margin: 0;
     height: 100%;
 }
 
-#lobby {
-    width: 100%;
-    height: 100%;
+body {
+    background-image: url("../../Background.webp");
+    background-attachment: fixed;
+    background-size: cover;
+    height: 95%;
 }
 
-#lobby h1 {
+#lobby {
+    background:  rgba(42,178,217, .6);    
+    position: relative;
+    width: 100%;
+    min-height: 100%;
+    z-index: 100;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+#lobby button, #lobby input {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 15pt;
+    box-sizing: border-box;
+    margin: 5px auto;
     text-align: center;
 }
 
 
+#lobby h1 {
+    text-align: center;
+    font-family: 'Honk', sans-serif;
+    font-size: 36pt;
+}
 
-#board {
+
+#room {
     display: none;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
     width: 100%;
     height: 100%;
-    background: pink;
+    background: linear-gradient(rgba(221,71,73, .6), rgba(42,178,217, .6) );
+    z-index: 0;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+
+.roomIdContainer {
+    padding: 10px;
+    font-family: 'Honk', sans-serif;
+
+}
+
+
+#gameLog {
+    right: 0px;
+    bottom: 10px;
+    width: 100%;
+    max-width: 350px;
+    border: 1px solid gray;
+    z-index: 1;
+    height: 200px;
+    max-height: 200px;
+    overflow: auto;
+    background: rgba(255,255,255,0.3);
+}
+
+#gameLog ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#gameLog ul li {
+    margin: 5px;
+}
+
+#lobbyErrorMessage {
+    color: darkred;
+    font-weight: bold;
+    text-align: center;
+    font-size: 16pt;
+}
+
+#startGameButton {
+    display: none;
+    font-family: 'Honk', sans-serif;
+
+}
+
+#playersZones {
+    height: 250px;
+    display: flex;
+    flex-direction: row;
+}
+
+#playersZones .player {
+    background: linear-gradient(rgba(221,71,73, .6), rgba(18, 77, 94, 0.6) );
+    max-width: 33%;
+    flex-grow: 1;
+    margin: 10px;
+    text-align: center;	
+	border: 0px;
+	border-style: solid;
+}
+
+ .player::before {
+    left:5px;
+    background-image: url("../../playericon.png");
+}
+
+.middle {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+.middle .lastMessage {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 38px;
+    margin: 25px;
+}
+
+#startGameButton {
+    background: linear-gradient(rgba(221,71,73, .6), rgba(18, 77, 94, 0.6) );
+    font-family: 'Honk', sans-serif;
+    font-size: 36pt;
+    cursor: pointer;
+    padding: 15px 35px;
+    border-radius: 5px;
+    border: 0px;
+}
+
+
+#playerZone {
+    bottom: 0px;
+    box-sizing: border-box;
+    margin: 0px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    /*background-color:rgba(57, 64, 77, .8);*/
+    padding: 15px;
+    overflow-x: scroll;
+    max-height: 300px;
+}
+
+#playerZone .playerData {
+    flex: 0.5;
+    padding: 20px;
+}
+
+#playerZone .playerRow {
+    flex: 1;
+    width: auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.card-container {
+    background: linear-gradient(rgba(221, 110, 112, 0.3), rgba(33, 130, 156, 0.3) );
+    border-radius: 5px;
+    min-height: 150px;
+
+    display: flex;
+    height: 150px;
+    width: 100%;
+}
+
+.card {
+    width: 100px;
+    margin: 5px;
+    overflow: hidden;
+    border-radius: 6px;
+    display: inline-block;
+    flex: 0 0 auto;
+
+}
+
+.card img {
+    display: block;
+    max-width: 100%;
+}
+
+.card.selected {
+    border: 2px solid aqua;
+    transform: scale(1.1);
+}
+
+.card-preview {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+.card-preview.offset {
+    top: 40%;
+    left: 50%;
+    transform: translate(-40%, -50%);
+}
+
+.card-preview img {
+    width: 350px;
+}
+
+.player.focus {
+    border: 3px solid aqua !important;
+}
+
+#GameOver {
+    display: none;
+
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    right: 0;
+
+    justify-content: center;
+    align-items: center;
+}
+
+#GameOver .message {
+    text-align: center;
+    margin: 25px;
+    /*font-family: 'Honk', sans-serif;*/
+    font-size: 24pt;
+    color: white;
 }

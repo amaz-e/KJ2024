@@ -2,23 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Meme The Gathering</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Meme: The Gathering</title>
     <script src="//cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.9/signalr.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="//code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
     <script src="/static/js/main.js"></script>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
 <div id="lobby">
-    <h1>GaMeme List</h1>
+    <h1>Meme: The Gathering</h1>
     <div id="games-list"></div>
+    <input type="text" id="player-name-input" placeholder="Player Name"/>
+    <input type="text" id="room-id-input" placeholder="Room ID"/>
+    <button id="joinRoomButton" disabled="disabled">JOIN</button>
+    <button id="createRoomButton" disabled="disabled">CREATE ROOM</button>
 
-    <button id="sendButton">CLICK!</button>
+    <div id="lobbyErrorMessage"></div>
 </div>
 
-<div id="board">
+<div id="room">
+    <div class="card-preview">
+        <img src="">
+    </div>
 
+    <div id="playersZones"></div>
+
+    <div class="middle">
+        <div id="gameLog">
+            <ul>
+
+            </ul>
+        </div>
+        <div class="lastMessage">
+            <div class="roomIdContainer">Invite your friends - Room ID: <span data-type="roomID"></span></div>
+            <div><button id="startGameButton">Start Game</button></div>
+        </div>
+    </div>
+
+    <div id="playerZone">
+        <div id="playerData" class="playerData">
+            <h2 id="playerName">PlayerName</h2>
+            <h3 id="playerHP">LP: 0</h3>
+        </div>
+        <div id="playerPersistentCards" class="playerRow player">
+            <h3>In Game Player Cards</h3>
+            <div class="card-container">
+
+            </div>
+        </div>
+        <div id="playerHand" class="playerRow">
+            <h3>Player Hand</h3>
+            <div class="card-container">
+
+            </div>
+        </div>
+
+    </div>
 </div>
+
+<div id="GameOver">
+    <div class="message">
+        sub-zero wins!
+    </div>
+</div>
+
 
 </body>
 </html>
