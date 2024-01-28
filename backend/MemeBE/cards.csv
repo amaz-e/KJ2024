@@ -27,7 +27,7 @@
 27;SurprisedPikachu;/static/jpg/SurprisedPikachu.png;MakeLaugh,1;1
 28;SurprisedKirk;/static/jpg/SurprisedKirk.png;MakeLaugh,2;0
 29;Takemymoney;/static/jpg/Takemymoney.png;MakeLaugh,2;1
-30;RollSafeThink;/static/jpg/OhGodNo.png;Shield,1;2
+30;RollSafeThink;/static/jpg/RollSafeThink.png;Shield,1;2
 31;Thatsnoneofmybuisness;/static/jpg/Thatsnoneofmybuisness.png;MakeLaugh,1;1
 32;TheWhat;/static/jpg/TheWhat.png;MakeLaugh,2;1
 33;Thisisfine;/static/jpg/Thisisfine.png;MakeLaugh,1;1
@@ -38,3 +38,14 @@
 38;WeedGuy;/static/jpg/WeedGuy.png;MakeLaugh,1;1
 39;WillyWonka;/static/jpg/WillyWonka.png;MakeLaugh,1;1
 40;Duckface;/static/jpg/Duckface.png;MakeGrumpy,1;1
+41;Emotionaldamage;/static/jpg/Emotionaldamage.png;MakeGrumpy,3;1
+42;Facepalm;/static/jpg/Facepalm.png;MakeGrumpy,2;1
+43;Foreveralone;/static/jpg/Foreveralone.png;MakeGrumpy,1;1
+44;Genius;/static/jpg/Genius.png;MakeGrumpy,1;1
+45;GoodGuy;/static/jpg/GoodGuy.png;MakeGrumpy,2;0
+46;DistractedBoyfriend;/static/jpg/DistractedBoyfriend.png;MakeLaugh,1;1
+47;CryingCat;/static/jpg/CryingCat.png;MakeGrumpy,2;0
+48;All;/static/jpg/All.png;MakeLaugh,1;0
+49;AwkwardLittleGirl;/static/jpg/AwkwardLittleGirl.png;MakeGrumpy,1;1
+50;Buffeddoge;/static/jpg/Buffeddoge.png;Buff,2;2
+51;Cheers;/static/jpg/Cheers.png;MakeLaugh,1;1
