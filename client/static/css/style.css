@@ -112,9 +112,10 @@ body {
 }
 
 #playersZones {
-    height: 200px;
+    height: 220px;
     display: flex;
     flex-direction: row;
+    margin: 0 -10px;
 }
 
 #playersZones h1,h2,h3,h4 {
@@ -141,7 +142,8 @@ body {
 .otherPlayerName {
     text-align: left;
     font-family: 'Honk', sans-serif;
-    font-size: 22px;;
+    font-size: 22px;
+    margin-right: 50px;
 }
 
 .points {
@@ -153,7 +155,7 @@ body {
 
 .laughIcon {
     margin-left: 10px;
-    background-image: url("../../smile.png");
+    width: 20px;
     max-width: 30px;
 }
 
@@ -200,6 +202,7 @@ body {
     flex-direction: column;
     font-size: 38px;
     margin: 25px;
+    font-family: 'Honk', sans-serif;
 }
 
 #startGameButton {
