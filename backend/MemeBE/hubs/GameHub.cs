@@ -244,6 +244,8 @@ public class GameHub : Hub
         {
             await Clients.Client(player.ConnectionID)
                 .SendAsync("CardDrawn", card.DeckId, card.URL, card.Target);
+            await Clients.Group(room.RoomId)
+                .SendAsync("CardsLeft", room.Deck.GetCount());
             player.AddCardToHand(card);
         }
     }
