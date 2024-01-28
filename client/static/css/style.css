@@ -151,6 +151,7 @@ body {
 
 .laughIcon {
     background-image: url("../../smilewb.png");
+    max-width: 20px;
 }
 
 .middle {

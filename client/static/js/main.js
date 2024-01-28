@@ -267,7 +267,7 @@ function addPlayerZone(playerName) {
     laughIconElement.className = 'laughIcon';
     laughIconElement.src='../../smilewb.png';
 
-    const laughElement = document.createElement('h4');
+    const laughElement = document.createElement('h3');
     laughElement.textContent = "LP: " + 0;
     laughElement.className = 'points';
     const playerHandDiv = document.createElement('div');
