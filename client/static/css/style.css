@@ -115,7 +115,7 @@ body {
     flex-direction: row;
 }
 
-#playersZones h {
+#playersZones h1,h2,h3,h4 {
 
     display:inline;
 }
@@ -133,6 +133,10 @@ body {
  .player::before {
     left:5px;
     background-image: url("../../playericon.png");
+}
+
+.otherPlayerName {
+    font-family: 'Honk', sans-serif;
 }
 
 .middle {
