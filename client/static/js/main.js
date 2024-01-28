@@ -71,6 +71,7 @@ function initReceiveMethods() {
             $("#startGameButton").show();
         }
         $("#playerName").text(playerName);
+        $("#playerPersistentCards").data('player-name', playerName);
         otherPlayers.forEach((playerName) => addPlayerZone(playerName));
     });
 
@@ -83,19 +84,31 @@ function initReceiveMethods() {
         $("#startGameButton").hide();
     });
 
+    connection.on("PlacedPersistent", function (deckId, url, target) {
+        PlacePersistentCard(deckId, url, target, true)
+    });
+
+    connection.on("OtherPlacedPersistent", function (deckId, url, target) {
+        PlacePersistentCard(deckId, url, target, false);
+    });
+
+    connection.on("RemoveCard", function (deckId, handOnly) {
+        RemoveCard(deckId, handOnly);
+    });
+
     connection.on("CardDrawn", function (deckId, url, target) {
-        const newDiv = document.createElement('div');
-        newDiv.className = 'card';
-        newDiv.setAttribute('data-target', target);
-        newDiv.setAttribute('data-deck-id', deckId);
-
-        const newImg = document.createElement('img');
-        newImg.src = url;
-
-        newDiv.appendChild(newImg);
+        let card = CreateCard(deckId, url, target)
 
         const parentElement = document.querySelector('#playerHand .card-container');
-        parentElement.appendChild(newDiv);
+        parentElement.appendChild(card);
+    });
+
+    connection.on("TakeLaugh", function (points) {
+        $("#playerHP").text(points);
+    });
+
+    connection.on("OtherTookLaugh", function (target, points) {
+        document.querySelector('#playersZones .other.player[data-player-name="' + target + '"] .points').innerHTML = points;
     });
 
     connection.on("TurnStarted", function () {
@@ -139,8 +152,8 @@ function initSendMethods() {
         disabledSelectPlayerMode();
         if (yourTurn === true) {
             let card = $(this);
-            if(card.data('target') !== 0){
-                connection.invoke("SendCard", card.data('deck-id'), "Enemy").catch(function (err) {
+            if (card.data('target') === 0) {
+                connection.invoke("SendCard", card.data('deck-id'), "").catch(function (err) {
                     return console.error(err.toString());
                 });
                 hideCardPreview();
@@ -152,9 +165,9 @@ function initSendMethods() {
         }
     });
 
-    $('#playersZones').on('click', '.other.player', function () {
+    $(document).on('click', '.player.focus', function () {
         let enemyName = $(this).data('player-name');
-        if(selectedCard != null){
+        if (selectedCard != null) {
             connection.invoke("SendCard", selectedCard.data('deck-id'), enemyName).catch(function (err) {
                 return console.error(err.toString());
             });
@@ -162,16 +175,14 @@ function initSendMethods() {
 
         }
         disabledSelectPlayerMode();
-
     });
-
 
 
     $('#playerZone').on('mouseenter', '.card', function () {
         showCardPreview(this, true);
     });
 
-    $('.otherPlayerPersistentCards').on('mouseenter', '.card', function () {
+    $(document).on('mouseenter', '.otherPlayerPersistentCards .card', function () {
         showCardPreview(this, false);
     });
 
@@ -180,18 +191,18 @@ function initSendMethods() {
     });
 }
 
-function removeAllSelectedOnCard(){
+function removeAllSelectedOnCard() {
     $('.card.selected').removeClass('selected');
 }
 
-function enableSelectPlayerMode(card){
+function enableSelectPlayerMode(card) {
     selectedCard = card;
-    $('.other.player').addClass('focus');
+    $('.player').addClass('focus');
 }
 
-function disabledSelectPlayerMode(){
+function disabledSelectPlayerMode() {
     removeAllSelectedOnCard();
-    $('.other.player').removeClass('focus');
+    $('.player').removeClass('focus');
 }
 
 function switchToLobby() {
@@ -226,11 +237,12 @@ function addPlayerZone(playerName) {
     playerDiv.className = 'other player';
     playerDiv.setAttribute('data-player-name', playerName);
 
-    const nameElement = document.createElement('h2');
+    const nameElement = document.createElement('h3');
     nameElement.textContent = playerName;
 
-    const laughElement = document.createElement('h2');
+    const laughElement = document.createElement('h4');
     laughElement.textContent = "LP: " + 0;
+    laughElement.className = 'points';
     const playerHandDiv = document.createElement('div');
     playerHandDiv.className = 'otherPlayerPersistentCards';
 
@@ -240,11 +252,46 @@ function addPlayerZone(playerName) {
     playerZone.appendChild(playerDiv);
 }
 
-function showCardPreview(card, player= false){
-    if(player){
-        $(".card-preview").addClass('player');
+function CreateCard(deckId, url, target) {
+    const newDiv = document.createElement('div');
+    newDiv.className = 'card';
+    newDiv.setAttribute('data-target', target);
+    newDiv.setAttribute('data-deck-id', deckId);
+
+    const newImg = document.createElement('img');
+    newImg.src = url;
+
+    newDiv.appendChild(newImg);
+
+    return newDiv
+}
+
+function PlacePersistentCard(deckId, url, target, owner) {
+    let card = CreateCard(deckId, url, target);
+
+    if (owner) {
+        const parentElement = document.querySelector('#playerPersistentCards .card-container');
+        parentElement.appendChild(card);
     } else {
-        $(".card-preview").removeClass('player');
+        const parentElement = document.querySelector('#playersZones .other.player[data-player-name="' + target + '"] .otherPlayerPersistentCards');
+        parentElement.appendChild(card);
+    }
+}
+
+function RemoveCard(deckId, handOnly) {
+    if(handOnly){
+        $("#playerHand .card[data-deck-id='" + deckId + "']").remove();
+    } else {
+        $(".card[data-deck-id='" + deckId + "']").remove();
+    }
+
+}
+
+function showCardPreview(card, player = false) {
+    if (player) {
+        $(".card-preview").addClass('offset');
+    } else {
+        $(".card-preview").removeClass('offset');
     }
     $(".card-preview").show();
     $(".card-preview img").attr('src', $('img', card).attr('src'));
