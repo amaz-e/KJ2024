@@ -206,11 +206,15 @@ function initSendMethods() {
         showCardPreview(this, true);
     });
 
+    $('#lastCard').on('mouseenter',  function () {
+        showCardPreview(this, false);
+    });
+
     $(document).on('mouseenter', '.otherPlayerPersistentCards .card', function () {
         showCardPreview(this, false);
     });
 
-    $(document).on('mouseleave', '.card', function () {
+    $(document).on('mouseleave', '.card, #lastCard', function () {
         hideCardPreview();
     });
 }
