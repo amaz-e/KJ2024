@@ -56,13 +56,14 @@ body {
     display: none;
     flex-direction: column;
     position: relative;
-    overflow: hidden;
+    overflow: auto;
     width: 100%;
-    height: 100%;
+    
     background: linear-gradient(rgba(221,71,73, .6), rgba(42,178,217, .6) );
     z-index: 0;
     padding: 10px;
     box-sizing: border-box;
+    min-height: 100vh;
 }
 
 
@@ -111,7 +112,7 @@ body {
 }
 
 #playersZones {
-    height: 250px;
+    height: 230px;
     display: flex;
     flex-direction: row;
 }
@@ -124,7 +125,7 @@ body {
 #playersZones .player {
     background: linear-gradient(rgba(221,71,73, .6), rgba(18, 77, 94, 0.6) );
     max-width: 33%;
-    height: 250px;
+    height: 230px;
     flex-grow: 1;
     margin: 10px;
     text-align: center;	
@@ -144,14 +145,16 @@ body {
 }
 
 .points {
-    margin-left: 30px;
+    margin-left: 10px;
     text-align: right;
     font-family: 'Honk', sans-serif;
     font-size: 22px;;
 }
 
 .laughIcon {
+    margin-left: 10px;
     background-image: url("../../smilewb.png");
+    max-width: 30px;
 }
 
 .middle {
@@ -225,8 +228,9 @@ body {
 }
 
 #playerZone .playerData {
-    flex: 0.5;
+    flex: 0.2;
     padding: 20px;
+    background: linear-gradient(rgba(221, 110, 112, 0.3), rgba(33, 130, 156, 0.3) );
 }
 
 #playerZone .playerRow {
