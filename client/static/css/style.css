@@ -200,6 +200,7 @@ body {
     border-radius: 6px;
     display: inline-block;
     flex: 0 0 auto;
+    cursor: pointer;
 
 }
 

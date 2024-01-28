@@ -73,7 +73,7 @@ function initReceiveMethods() {
             $("#startGameButton").show();
         }
         $("#playerName").text(playerName);
-        $("#playerPersistentCards").data('player-name', playerName);
+        document.querySelector("#playerPersistentCards").setAttribute('data-player-name', playerName);
         otherPlayers.forEach((playerName) => addPlayerZone(playerName));
     });
 
