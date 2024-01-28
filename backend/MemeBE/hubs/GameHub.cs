@@ -116,7 +116,7 @@ public class GameHub : Hub
                 // Zainicjuj gre dla kaźdego gracza
                 for (int i = 0; i < 5; i++)
                 {
-                    CardDrawn(player, room);
+                    DrawCard(player, room);
 
                 }
             }
@@ -148,11 +148,11 @@ public class GameHub : Hub
         {
             // tutaj jest aktywny gracz w odpowiednim pokoju
             // Wyliczanie akcjki
-            var ActiveCard = room.ActivePlayer.CardsOnHand.SingleOrDefault(card => card.DeckId == cardId);
+            var activeCard = room.ActivePlayer.CardsOnHand.SingleOrDefault(card => card.DeckId == cardId);
 
-            foreach (var effect in ActiveCard.EffectList)
+            foreach (var effect in activeCard.EffectList)
             {
-                if (ActiveCard.Target == 0) // Attack actions
+                if (activeCard.Target == 0) // Attack actions
                 {
                     switch (effect.EffectName)
                     {
@@ -171,7 +171,7 @@ public class GameHub : Hub
                     // wyslać info do frontendu eby usunał kartę
                     Clients.Group(room.RoomId).SendAsync("RemoveCard", cardId);
                 }
-                if (ActiveCard.Target == 1) // Attack actions
+                if (activeCard.Target == 1) // Attack actions
                 {
                     switch (effect.EffectName)
                     {
@@ -189,15 +189,15 @@ public class GameHub : Hub
                     // wyslać info do frontendu eby usunał kartę
                     Clients.Group(room.RoomId).SendAsync("RemoveCard", cardId);
                 }
-                else if (ActiveCard.Target == 2) // Actions on player persistent slot
+                else if (activeCard.Target == 2) // Actions on player persistent slot
                 {
-                    PlacePersistentCard(room, ActiveCard, targetNick);
+                    PlacePersistentCard(room, activeCard, targetNick);
 
                     // poinformuj wszystkich ze tej karty juz neima 
                     Clients.Group(room.RoomId).SendAsync("RemoveCard", cardId);
                 }
             }
-            room.ActivePlayer.CardsOnHand.Remove(ActiveCard);
+            room.ActivePlayer.CardsOnHand.Remove(activeCard);
         }
     }
     public async Task EndTurn(Room room)
@@ -208,6 +208,7 @@ public class GameHub : Hub
         
         if (room.GameStarted)
         {
+            DrawCard(room.ActivePlayer, room);
             room.ActivePlayer = room.NextPlayer();
             NextTurn(room);
         }
@@ -216,7 +217,7 @@ public class GameHub : Hub
             GameEnded(room);
         }
     }
-    public async Task CardDrawn(Player player, Room room)
+    public async Task DrawCard(Player player, Room room)
     {
         var isDeckEmpty = room.DrawCard(out Card card).Sucess;
         if (!isDeckEmpty)
