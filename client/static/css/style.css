@@ -136,7 +136,9 @@ body {
 }
 
 .otherPlayerName {
+    text-align: left;
     font-family: 'Honk', sans-serif;
+    font-size: 22px;;
 }
 
 .middle {

@@ -244,6 +244,10 @@ function addPlayerZone(playerName) {
     const nameElement = document.createElement('h3');
     nameElement.className = 'otherPlayerName';
     nameElement.textContent = playerName;
+    
+    const laughIconElement = document.createElement('img');
+    laughIconElement.className = 'laughIcon';
+    laughIconElement.src='../../smilewb.png';
 
     const laughElement = document.createElement('h4');
     laughElement.textContent = "LP: " + 0;
@@ -252,6 +256,7 @@ function addPlayerZone(playerName) {
     playerHandDiv.className = 'otherPlayerPersistentCards';
 
     playerDiv.appendChild(nameElement);
+    playerDiv.appendChild(laughIconElement);
     playerDiv.appendChild(laughElement);
     playerDiv.appendChild(playerHandDiv);
     playerZone.appendChild(playerDiv);
