@@ -238,6 +238,8 @@ function addToGameLog(message) {
     let li = document.createElement("li");
     li.innerHTML = message;
     document.querySelector("#gameLog ul").appendChild(li);
+    let logParent = document.querySelector("#gameLog");
+    logParent.scrollTop = logParent.scrollHeight;
 }
 
 function showLobbyErrorMessage(message) {
