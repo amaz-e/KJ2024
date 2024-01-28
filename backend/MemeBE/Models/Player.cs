@@ -36,9 +36,11 @@ public class Player
 
     public int PrepareLaugh(int value, out List<int?> cardsToDelete)
     {
-        cardsToDelete = new List<int?>();
         int result = value;
-        foreach (var card in PersistentSlot)
+        cardsToDelete = new List<int?>();
+        var cardsCopy = new List<Card>(PersistentSlot);
+        PersistentSlot.Clear();
+        foreach (var card in cardsCopy)
         {
             foreach (Effect effect in card.EffectList)
             {
@@ -47,11 +49,41 @@ public class Player
                     result += effect.Value;
                     cardsToDelete.Add(card.DeckId);
                 }
+                else
+                {
+                    PersistentSlot.Add(card);
+                }
                 
             }
         }
         
         
+        return result;
+    }
+
+    public int PrepareGrumpy(int value, out List<int?> cardsToDelete)
+    {
+        int result = value;
+        cardsToDelete = new List<int?>();
+        var cardsCopy = new List<Card>(PersistentSlot);
+        PersistentSlot.Clear();
+        foreach (var card in cardsCopy)
+        {
+            foreach (Effect effect in card.EffectList)
+            {
+                if (effect.EffectName.Equals("Buff"))
+                {
+                    result += effect.Value;
+                    cardsToDelete.Add(card.DeckId);
+                }
+                else
+                {
+                    PersistentSlot.Add(card);
+                }
+
+            }
+        }
+
         return result;
     }
 
@@ -81,26 +113,6 @@ public class Player
         laughReceived = laughReceived < 0 ? 0 : laughReceived;
         LaughPoints += laughReceived;
 
-    }
-
-    public int PrepareGrumpy(int value, out List<int?> cardsToDelete)
-    {
-        int result = value;
-        cardsToDelete = new List<int?>();
-        foreach (var card in PersistentSlot)
-        {
-            foreach (Effect effect in card.EffectList)
-            {
-                if (effect.EffectName.Equals("Buff"))
-                {
-                    result += effect.Value;
-                    cardsToDelete.Add(card.DeckId);
-                }
-                
-            }
-        }
-        
-        return result;
     }
 
     public void ReceiveGrumpy(int grumpyValue,out List<int?> cardsToDelete)

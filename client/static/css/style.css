@@ -147,6 +147,21 @@ body {
     flex-direction: row;
 }
 
+.middle .lastDetails {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.middle #lastCard {
+    width: 250px;
+}
+
+.middle #lastCard img {
+    width: 200px;
+    margin: 25px;
+}
+
 .middle .lastMessage {
     flex-grow: 1;
     display: flex;

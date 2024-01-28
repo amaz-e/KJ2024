@@ -151,6 +151,7 @@ public class GameHub : Hub
             // tutaj jest aktywny gracz w odpowiednim pokoju
             // Wyliczanie akcjki
             var activeCard = room.ActivePlayer.CardsOnHand.SingleOrDefault(card => card.DeckId == cardId);
+            Clients.Group(room.RoomId).SendAsync("LastCard", activeCard.URL);
 
             foreach (var effect in activeCard.EffectList)
             {
@@ -340,7 +341,7 @@ public class GameHub : Hub
             Console.WriteLine("MakeGrumpy - To All");
             foreach (var player in room.Players.Values)
             {
-                Console.WriteLine("Player " +player.Nick +" is gone take laugh: " + grumpyValue);
+                Console.WriteLine("Player " +player.Nick +" is gone take grumpy: " + grumpyValue);
                 player.ReceiveGrumpy(grumpyValue, out List<int?> cardsToDeleteFromShieldBuff);
                 // Emit
                 await Clients.Client(player.ConnectionID).SendAsync("TakeGrumpy",player.LaughPoints);
@@ -359,8 +360,7 @@ public class GameHub : Hub
         }
         else // Single player
         { 
-            Console.WriteLine("MakeGrumpy - To: " + targetNick);
-            Console.WriteLine("Player " +targetNick +" is gone take laugh: " + grumpyValue);
+            Console.WriteLine("Player " +targetNick +" is gone take grumpy " + grumpyValue);
             var targetPlayer = room.GetPlayerByNick(targetNick);
             targetPlayer.ReceiveGrumpy(grumpyValue,out List<int?> cardsToDeleteFromShieldBuff);
             // emit

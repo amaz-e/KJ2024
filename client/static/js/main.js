@@ -12,8 +12,9 @@ $(document).ready(function () {
 
 function initServer() {
     connection = new signalR.HubConnectionBuilder()
-        //.withUrl("https://memethegatheringapi.azurewebsites.net/GameHub")
         .withUrl("https://578d-87-206-130-93.ngrok-free.app/GameHub")
+        //.withUrl("https://memethegatheringapi.azurewebsites.net/GameHub")
+        // .withUrl("https://578d-87-206-130-93.ngrok-free.app/GameHub")
         .withAutomaticReconnect()
         .configureLogging(signalR.LogLevel.Information)
         .build();
@@ -119,6 +120,15 @@ function initReceiveMethods() {
 
     connection.on("OtherTookGrumpy", function (target, points) {
         document.querySelector('#playersZones .other.player[data-player-name="' + target + '"] .points').innerHTML = points;
+    });
+
+    connection.on("GameEnded", function (message) {
+        yourTurn = false;
+        ShowEndGameScreen(message);
+    });
+
+    connection.on("LastCard", function (url) {
+        ShowLastPlayedCard(url);
     });
 
     connection.on("TurnStarted", function () {
@@ -294,6 +304,13 @@ function PlacePersistentCard(deckId, url, target, owner) {
         const parentElement = document.querySelector('#playersZones .other.player[data-player-name="' + target + '"] .otherPlayerPersistentCards');
         parentElement.appendChild(card);
     }
+}
+
+function ShowLastPlayedCard(url){
+    let card = CreateCard('', url, '');
+
+     document.querySelector('#lastCard').innerHTML = card.innerHTML;
+
 }
 
 function RemoveCard(deckId, handOnly) {
