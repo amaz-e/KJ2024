@@ -3,6 +3,7 @@ let playerName = localStorage.getItem('playerName');
 let yourTurn = false;
 let cmdInProgress = false;
 let selectedCard = null;
+let currentRoomID = null;
 
 $(document).ready(function () {
     $('#player-name-input').val(playerName);
@@ -12,7 +13,7 @@ $(document).ready(function () {
 function initServer() {
     connection = new signalR.HubConnectionBuilder()
         .withUrl("https://memethegatheringapi.azurewebsites.net/GameHub")
-        // .withUrl("https://578d-87-206-130-93.ngrok-free.app/GameHub") test
+        // .withUrl("https://578d-87-206-130-93.ngrok-free.app/GameHub")
         .withAutomaticReconnect()
         .configureLogging(signalR.LogLevel.Information)
         .build();
@@ -66,6 +67,7 @@ function initReceiveMethods() {
 
     connection.on("JoinedToRoom", function (roomID, isOwner, otherPlayers) {
         switchToRoom();
+        currentRoomID = roomID;
         $("[data-type='roomID']").text(roomID);
         if (isOwner) {
             $("#startGameButton").show();
@@ -299,4 +301,15 @@ function showCardPreview(card, player = false) {
 
 function hideCardPreview() {
     $(".card-preview").hide();
+}
+
+function ShowEndGameScreen(message){
+    $("#GameOver .message").html(message);
+    $("#GameOver").css('display', 'flex');
+}
+
+function ForceEndgame(){
+    connection.invoke("DebugGameEnded", currentRoomID).catch(function (err) {
+        return console.error(err.toString());
+    });
 }

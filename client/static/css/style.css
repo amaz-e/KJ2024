@@ -229,3 +229,26 @@ body {
 .player.focus {
     border: 3px solid aqua !important;
 }
+
+#GameOver {
+    display: none;
+
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    right: 0;
+
+    justify-content: center;
+    align-items: center;
+}
+
+#GameOver .message {
+    text-align: center;
+    margin: 25px;
+    /*font-family: 'Honk', sans-serif;*/
+    font-size: 24pt;
+    color: white;
+}
