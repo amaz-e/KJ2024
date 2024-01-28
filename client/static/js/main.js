@@ -214,9 +214,15 @@ function initSendMethods() {
         showCardPreview(this, false);
     });
 
-    $(document).on('mouseleave', '.card, #lastCard', function () {
+    $(document).on('mouseenter', '.rules', function () {
+        showRules();
+    });
+
+    $(document).on('mouseleave', '.card, #lastCard, .rules', function () {
         hideCardPreview();
     });
+
+
 }
 
 function removeAllSelectedOnCard() {
@@ -271,9 +277,7 @@ function addPlayerZone(playerName) {
     nameElement.className = 'otherPlayerName';
     nameElement.textContent = playerName;
     
-    const laughIconElement = document.createElement('img');
-    laughIconElement.className = 'laughIcon';
-    laughIconElement.src='../../smile.png';
+
 
     const laughElement = document.createElement('h3');
     laughElement.textContent = "LP: " + 0;
@@ -338,6 +342,12 @@ function showCardPreview(card, player = false) {
     }
     $(".card-preview").show();
     $(".card-preview img").attr('src', $('img', card).attr('src'));
+}
+
+function showRules(card, player = false) {
+    $(".card-preview").removeClass('offset');
+    $(".card-preview").show();
+    $(".card-preview img").attr('src', '/static/rules.png');
 }
 
 function hideCardPreview() {
