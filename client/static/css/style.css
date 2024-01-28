@@ -60,6 +60,14 @@ body {
     box-sizing: border-box;
 }
 
+
+.roomIdContainer {
+    padding: 10px;
+    font-family: 'Honk', sans-serif;
+
+}
+
+
 #gameLog {
     right: 0px;
     bottom: 10px;
@@ -67,10 +75,9 @@ body {
     max-width: 350px;
     border: 1px solid gray;
     z-index: 1;
-}
-
-#roomIDContainer {
-    padding: 10px;
+    max-height: 300px;
+    overflow-y: scroll;
+    background: rgba(255,255,255,0.3);
 }
 
 #gameLog ul {
@@ -92,6 +99,8 @@ body {
 
 #startGameButton {
     display: none;
+    font-family: 'Honk', sans-serif;
+
 }
 
 #playersZones {
@@ -119,6 +128,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    font-size: 38px;
+    margin: 25px;
 }
 
 #startGameButton {
@@ -137,9 +149,10 @@ body {
     margin: 0px;
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     /*background-color:rgba(57, 64, 77, .8);*/
     padding: 15px;
+    overflow-x: scroll;
 }
 
 #playerZone .playerData {
