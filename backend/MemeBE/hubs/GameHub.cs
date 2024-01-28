@@ -206,8 +206,8 @@ public class GameHub : Hub
     {
         Console.WriteLine("End turn - start");
         await Clients.Client(room.ActivePlayer.ConnectionID).SendAsync("TurnEnd");
-        await Clients.Group(room.RoomId)
-            .SendAsync("ReceiveServerRoomMessage", room.ActivePlayer.Nick + " - turn Ended");
+//         await Clients.Group(room.RoomId)
+//             .SendAsync("ReceiveServerRoomMessage", room.ActivePlayer.Nick + " - turn Ended");
         
         if (room.GameStarted)
         {
