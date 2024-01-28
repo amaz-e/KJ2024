@@ -1,6 +1,7 @@
 let connection;
 let playerName = localStorage.getItem('playerName');
 let yourTurn = false;
+let cmdInProgress = false;
 let selectedCard = null;
 let currentRoomID = null;
 
@@ -11,8 +12,8 @@ $(document).ready(function () {
 
 function initServer() {
     connection = new signalR.HubConnectionBuilder()
-        // .withUrl("https://memethegatheringapi.azurewebsites.net/GameHub")
-        .withUrl("https://578d-87-206-130-93.ngrok-free.app/GameHub")
+        .withUrl("https://memethegatheringapi.azurewebsites.net/GameHub")
+        // .withUrl("https://578d-87-206-130-93.ngrok-free.app/GameHub")
         .withAutomaticReconnect()
         .configureLogging(signalR.LogLevel.Information)
         .build();
@@ -110,19 +111,6 @@ function initReceiveMethods() {
 
     connection.on("OtherTookLaugh", function (target, points) {
         document.querySelector('#playersZones .other.player[data-player-name="' + target + '"] .points').innerHTML = points;
-    });
-
-    connection.on("TakeGrumpy", function (points) {
-        $("#playerHP").text(points);
-    });
-
-    connection.on("OtherTookGrumpy", function (target, points) {
-        document.querySelector('#playersZones .other.player[data-player-name="' + target + '"] .points').innerHTML = points;
-    });
-
-    connection.on("GameEnded", function (message) {
-        yourTurn = false;
-        ShowEndGameScreen(message);
     });
 
     connection.on("TurnStarted", function () {
