@@ -227,6 +227,8 @@ function addToGameLog(message) {
     let li = document.createElement("li");
     li.innerHTML = message;
     document.querySelector("#gameLog ul").appendChild(li);
+    let logParent = document.querySelector("#gameLog");
+    logParent.scrollTop = logParent.scrollHeight;
 }
 
 function showLobbyErrorMessage(message) {
@@ -241,6 +243,7 @@ function addPlayerZone(playerName) {
     playerDiv.setAttribute('data-player-name', playerName);
 
     const nameElement = document.createElement('h3');
+    nameElement.className = 'otherPlayerName';
     nameElement.textContent = playerName;
 
     const laughElement = document.createElement('h4');

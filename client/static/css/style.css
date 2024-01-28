@@ -13,10 +13,11 @@ body {
     background-image: url("../../Background.webp");
     background-attachment: fixed;
     background-size: cover;
-    height: 95%;
+    height: 98%;
 }
 
 #lobby {
+    
     background:  rgba(42,178,217, .6);    
     position: relative;
     width: 100%;
@@ -26,6 +27,10 @@ body {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+}
+
+.game-title {
+    margin-top: 210px;
 }
 
 #lobby button, #lobby input {
@@ -110,6 +115,11 @@ body {
     flex-direction: row;
 }
 
+#playersZones h1,h2,h3,h4 {
+
+    display:inline;
+}
+
 #playersZones .player {
     background: linear-gradient(rgba(221,71,73, .6), rgba(18, 77, 94, 0.6) );
     max-width: 33%;
@@ -123,6 +133,10 @@ body {
  .player::before {
     left:5px;
     background-image: url("../../playericon.png");
+}
+
+.otherPlayerName {
+    font-family: 'Honk', sans-serif;
 }
 
 .middle {
@@ -161,8 +175,9 @@ body {
     flex-wrap: nowrap;
     /*background-color:rgba(57, 64, 77, .8);*/
     padding: 15px;
-    overflow-x: scroll;
+    overflow-x: auto;
     max-height: 300px;
+    min-height: 300px;
 }
 
 #playerZone .playerData {
@@ -185,6 +200,7 @@ body {
     display: flex;
     height: 150px;
     width: 100%;
+    overflow-x: auto;
 }
 
 .card {
@@ -251,4 +267,18 @@ body {
     /*font-family: 'Honk', sans-serif;*/
     font-size: 24pt;
     color: white;
+}
+
+@keyframes rotateText {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.rotating-text {
+
+    animation: rotateText 2s linear; /* 'infinite' for looping */
 }
