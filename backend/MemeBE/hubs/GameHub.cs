@@ -283,7 +283,11 @@ public class GameHub : Hub
                 player.ReceiveLaugh(laughValue);
                 // Emit
                 await Clients.Client(player.ConnectionID).SendAsync("TakeLaugh",player.LaughPoints);
-                await Clients.OthersInGroup(room.RoomId).SendAsync("OtherTookLaugh",player.Nick, player.LaughPoints);
+                var otherPlayers = GetOtherPlayers(room, player.ConnectionID);
+                foreach (var otherPlayer in otherPlayers)  
+                {
+                    await Clients.Client(otherPlayer.ConnectionID).SendAsync("OtherTookLaugh",player.Nick, player.LaughPoints);
+                }
                 await Clients.Group(room.RoomId)
                     .SendAsync("ReceiveServerRoomMessage", GetLaughMessage(player.Nick, laughValue));
             }
@@ -294,7 +298,11 @@ public class GameHub : Hub
             targetPlayer.ReceiveLaugh(laughValue);
             // emit
             await Clients.Client(targetPlayer.ConnectionID).SendAsync("TakeLaugh",targetPlayer.LaughPoints);
-            await Clients.OthersInGroup(room.RoomId).SendAsync("OtherTookLaugh",targetPlayer.Nick, targetPlayer.LaughPoints);
+            var otherPlayers = GetOtherPlayers(room, targetPlayer.ConnectionID);
+            foreach (var otherPlayer in otherPlayers)  
+            {
+                await Clients.Client(otherPlayer.ConnectionID).SendAsync("OtherTookLaugh",targetPlayer.Nick, targetPlayer.LaughPoints);
+            }
             await Clients.Group(room.RoomId)
                 .SendAsync("ReceiveServerRoomMessage", GetLaughMessage(targetPlayer.Nick, laughValue));
         }
@@ -317,7 +325,11 @@ public class GameHub : Hub
                 player.ReceiveGrumpy(grumpyValue);
                 // Emit
                 await Clients.Client(player.ConnectionID).SendAsync("TakeGrumpy",player.LaughPoints);
-                await Clients.OthersInGroup(room.RoomId).SendAsync("OtherTookGrumpy",player.Nick, player.LaughPoints);
+                var otherPlayers = GetOtherPlayers(room, player.ConnectionID);
+                foreach (var otherPlayer in otherPlayers)  
+                {
+                    await Clients.Client(otherPlayer.ConnectionID).SendAsync("OtherTookGrumpy",player.Nick, player.LaughPoints);
+                }
                 await Clients.Group(room.RoomId)
                     .SendAsync("ReceiveServerRoomMessage", GetGrumpyMessage(player.Nick, grumpyValue));
             }
@@ -328,7 +340,11 @@ public class GameHub : Hub
             targetPlayer.ReceiveGrumpy(grumpyValue);
             // emit
             await Clients.Client(targetPlayer.ConnectionID).SendAsync("TakeGrumpy",targetPlayer.LaughPoints);
-            await Clients.OthersInGroup(room.RoomId).SendAsync("OtherTookLaugh",targetPlayer.Nick, targetPlayer.LaughPoints);
+            var otherPlayers = GetOtherPlayers(room, targetPlayer.ConnectionID);
+            foreach (var otherPlayer in otherPlayers)  
+            {
+                await Clients.Client(otherPlayer.ConnectionID).SendAsync("OtherTookGrumpy",targetPlayer.Nick, targetPlayer.LaughPoints);
+            }
             await Clients.Group(room.RoomId)
                 .SendAsync("ReceiveServerRoomMessage", GetGrumpyMessage(targetPlayer.Nick, grumpyValue));
         }
