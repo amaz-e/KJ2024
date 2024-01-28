@@ -237,6 +237,7 @@ body {
     font-size: 22px;;
     flex: 0.2;
     padding: 20px;
+    height: auto;
     background: linear-gradient(rgba(221, 110, 112, 0.3), rgba(33, 130, 156, 0.3) );
 }
 

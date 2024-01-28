@@ -22,6 +22,8 @@ public class GameHub : Hub
             Console.WriteLine(ex.Message);
         }
     }
+
+
     public async Task SendMessage(string user, string message)
     {
         await Clients.All.SendAsync("ReceiveMessage", user, message);
@@ -30,7 +32,11 @@ public class GameHub : Hub
     
     public async Task GetRooms()
     {
-        await Clients.All.SendAsync("RoomsList", Groups);
+        string[] roomIDs = rooms.Values
+            .Where(r => r.GameStarted == false)
+            .Select(r => r.RoomId)
+            .ToArray();
+        await Clients.All.SendAsync("RoomsList", roomIDs);
     }
 
     public async Task CreateRoom(string playerName)
