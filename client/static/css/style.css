@@ -110,6 +110,11 @@ body {
     flex-direction: row;
 }
 
+#playersZones h {
+
+    display:inline;
+}
+
 #playersZones .player {
     background: linear-gradient(rgba(221,71,73, .6), rgba(18, 77, 94, 0.6) );
     max-width: 33%;
@@ -161,8 +166,9 @@ body {
     flex-wrap: nowrap;
     /*background-color:rgba(57, 64, 77, .8);*/
     padding: 15px;
-    overflow-x: scroll;
+    overflow-x: auto;
     max-height: 300px;
+    min-height: 300px;
 }
 
 #playerZone .playerData {
@@ -251,4 +257,18 @@ body {
     /*font-family: 'Honk', sans-serif;*/
     font-size: 24pt;
     color: white;
+}
+
+@keyframes rotateText {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.rotating-text {
+
+    animation: rotateText 2s linear; /* 'infinite' for looping */
 }
