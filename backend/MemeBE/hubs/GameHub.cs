@@ -32,11 +32,20 @@ public class GameHub : Hub
     
     public async Task GetRooms()
     {
-        string[] roomIDs = rooms.Values
-            .Where(r => r.GameStarted == false)
-            .Select(r => r.RoomId)
-            .ToArray();
-        await Clients.All.SendAsync("RoomsList", roomIDs);
+        Console.WriteLine("GetRooms");
+        try
+        {
+            string[] roomIDs = rooms.Values
+                .Where(r => r.GameStarted == false)
+                .Select(r => r.RoomId)
+                .ToArray();
+            Console.WriteLine("Rooms: " + roomIDs);
+            await Clients.All.SendAsync("RoomsList", roomIDs);
+        }
+        catch
+        {
+            // ignore
+        }
     }
 
     public async Task CreateRoom(string playerName)
@@ -285,6 +294,7 @@ public class GameHub : Hub
         
         await Clients.Group(room.RoomId)
             .SendAsync("GameEnded", message);
+        rooms.Remove(room.RoomId);
     }
     public List<Player> GetOtherPlayers(Room room, string connId)
     {
