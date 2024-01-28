@@ -131,6 +131,10 @@ function initReceiveMethods() {
         ShowLastPlayedCard(url);
     });
 
+    connection.on("CardsLeft", function (left) {
+        $('#cardInDeck').text(left);
+    });
+
     connection.on("TurnStarted", function () {
         yourTurn = true;
     });
