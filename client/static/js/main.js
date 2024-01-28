@@ -12,8 +12,8 @@ $(document).ready(function () {
 
 function initServer() {
     connection = new signalR.HubConnectionBuilder()
-        .withUrl("https://578d-87-206-130-93.ngrok-free.app/GameHub")
-        //.withUrl("https://memethegatheringapi.azurewebsites.net/GameHub")
+        // .withUrl("https://578d-87-206-130-93.ngrok-free.app/GameHub")
+        .withUrl("https://memethegatheringapi.azurewebsites.net/GameHub")
         // .withUrl("https://578d-87-206-130-93.ngrok-free.app/GameHub")
         .withAutomaticReconnect()
         .configureLogging(signalR.LogLevel.Information)
@@ -206,11 +206,15 @@ function initSendMethods() {
         showCardPreview(this, true);
     });
 
+    $('#lastCard').on('mouseenter',  function () {
+        showCardPreview(this, false);
+    });
+
     $(document).on('mouseenter', '.otherPlayerPersistentCards .card', function () {
         showCardPreview(this, false);
     });
 
-    $(document).on('mouseleave', '.card', function () {
+    $(document).on('mouseleave', '.card, #lastCard', function () {
         hideCardPreview();
     });
 }

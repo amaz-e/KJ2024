@@ -17,8 +17,7 @@ body {
 }
 
 #lobby {
-    
-    
+
     position: relative;
     width: 100%;
     min-height: 100%;
@@ -113,9 +112,10 @@ body {
 }
 
 #playersZones {
-    height: 200px;
+    height: 220px;
     display: flex;
     flex-direction: row;
+    margin: 0 -10px;
 }
 
 #playersZones h1,h2,h3,h4 {
@@ -142,7 +142,8 @@ body {
 .otherPlayerName {
     text-align: left;
     font-family: 'Honk', sans-serif;
-    font-size: 22px;;
+    font-size: 22px;
+    margin-right: 50px;
 }
 
 .points {
@@ -154,7 +155,7 @@ body {
 
 .laughIcon {
     margin-left: 10px;
-    background-image: url("../../smile.png");
+    width: 20px;
     max-width: 30px;
 }
 
@@ -201,6 +202,7 @@ body {
     flex-direction: column;
     font-size: 38px;
     margin: 25px;
+    font-family: 'Honk', sans-serif;
 }
 
 #startGameButton {
@@ -229,8 +231,12 @@ body {
 }
 
 #playerZone .playerData {
+    text-align: left;
+    font-family: 'Honk', sans-serif;
+    font-size: 22px;;
     flex: 0.2;
     padding: 20px;
+    height: auto;
     background: linear-gradient(rgba(221, 110, 112, 0.3), rgba(33, 130, 156, 0.3) );
 }
 
@@ -332,4 +338,12 @@ body {
 .rotating-text {
 
     animation: rotateText 2s linear; /* 'infinite' for looping */
+}
+
+#game-rules {
+    position: fixed;
+    top: 30%;
+    left: 30%;
+    width: 40%;
+    background-image: url('../../rules.png');
 }
