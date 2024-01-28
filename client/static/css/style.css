@@ -112,7 +112,7 @@ body {
 
 #playersZones .player {
     background: linear-gradient(rgba(221,71,73, .6), rgba(18, 77, 94, 0.6) );
-
+    max-width: 33%;
     flex-grow: 1;
     margin: 10px;
     text-align: center;	
