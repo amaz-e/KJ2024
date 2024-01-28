@@ -45,6 +45,7 @@ function initReceiveMethods() {
     });
 
     connection.on("ReceiveServerRoomMessage", function (message) {
+        $(".lastMessage").html(message);
         addToGameLog(message);
     });
 
@@ -74,7 +75,7 @@ function initReceiveMethods() {
     });
 
     connection.on("NewPlayerJoinedToRoom", function (playerName) {
-        addToGameLog("Player " + playerName + " joined to the room!");
+        addToGameLog("Player <b>" + playerName + "</b> joined to the room!");
         addPlayerZone(playerName);
     });
 
@@ -138,10 +139,11 @@ function initSendMethods() {
         disabledSelectPlayerMode();
         if (yourTurn === true) {
             let card = $(this);
-            if(card.data('target') === 1){
+            if(card.data('target') !== 0){
                 connection.invoke("SendCard", card.data('deck-id'), "Enemy").catch(function (err) {
                     return console.error(err.toString());
                 });
+                hideCardPreview();
             } else {
                 removeAllSelectedOnCard();
                 $(this).addClass('selected');
@@ -156,6 +158,8 @@ function initSendMethods() {
             connection.invoke("SendCard", selectedCard.data('deck-id'), enemyName).catch(function (err) {
                 return console.error(err.toString());
             });
+            hideCardPreview();
+
         }
         disabledSelectPlayerMode();
 
@@ -207,7 +211,7 @@ function switchToRoom() {
 
 function addToGameLog(message) {
     let li = document.createElement("li");
-    li.textContent = message;
+    li.innerHTML = message;
     document.querySelector("#gameLog ul").appendChild(li);
 }
 
