@@ -12,8 +12,8 @@ $(document).ready(function () {
 
 function initServer() {
     connection = new signalR.HubConnectionBuilder()
-        .withUrl("https://memethegatheringapi.azurewebsites.net/GameHub")
-        // .withUrl("https://578d-87-206-130-93.ngrok-free.app/GameHub")
+        //.withUrl("https://memethegatheringapi.azurewebsites.net/GameHub")
+        .withUrl("https://578d-87-206-130-93.ngrok-free.app/GameHub")
         .withAutomaticReconnect()
         .configureLogging(signalR.LogLevel.Information)
         .build();
@@ -242,6 +242,7 @@ function addPlayerZone(playerName) {
     playerDiv.setAttribute('data-player-name', playerName);
 
     const nameElement = document.createElement('h3');
+    nameElement.className = 'otherPlayerName';
     nameElement.textContent = playerName;
 
     const laughElement = document.createElement('h4');

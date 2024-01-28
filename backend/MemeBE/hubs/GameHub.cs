@@ -317,9 +317,12 @@ public class GameHub : Hub
 
     public async Task MakeGrumpy(Room room, int value, string? targetNick = null)
     {
+        Console.WriteLine("MakeGrumpy - invoke");
         int grumpyValue = room.ActivePlayer.PrepareGrumpy(value, out List<int?> cardsToDelete);
+        Console.WriteLine("Grumpy Value: " + grumpyValue);
         if (string.IsNullOrEmpty(targetNick)) // all players
         {
+            Console.WriteLine("MakeGrumpy - To All");
             foreach (var player in room.Players.Values)
             {
                 player.ReceiveGrumpy(grumpyValue);
@@ -336,6 +339,7 @@ public class GameHub : Hub
         }
         else // Single player
         { 
+            Console.WriteLine("MakeGrumpy - To target");
             var targetPlayer = room.GetPlayerByNick(targetNick);
             targetPlayer.ReceiveGrumpy(grumpyValue);
             // emit
