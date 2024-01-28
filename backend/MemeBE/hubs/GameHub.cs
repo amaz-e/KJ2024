@@ -237,12 +237,36 @@ public class GameHub : Hub
         }
     }
 
+    public async Task DebugGameEnded(string roomId)
+    {
+        GameEnded(rooms[roomId]);
+    }
     public async Task GameEnded(Room room)
     {
         Console.WriteLine("GameEnd - start");
-        // Oblicz osteateczne wartosci i przekaz do frontu
+        var sortedPlayersByPoints = room.Players.Values
+            .OrderBy(p => p.LaughPoints)
+            .ToList();
+        
+        var winner = sortedPlayersByPoints.First();
+        var loser = sortedPlayersByPoints.Last();
+
+// Generate the message
+        var message = $"Congratulations to <b>{winner.Nick}</b> for being the ultimate poker face in the game! With only <b>{winner.LaughPoints}</b> Laugh Points, they are truly the hardest to crack a smile. Well played!</br>" +
+                      $"On the flip side, let's have a round of applause for <b>{loser.Nick}</b>. With a grand total of <b>{loser.LaughPoints}</b> Laugh Points, they've proven that laughter is indeed the best medicine... or they just have a really good sense of humor!<br>" +
+                      "Here's how everyone stacked up:<br>";
+
+// Add the list of all players with their points
+        foreach (var player in sortedPlayersByPoints)
+        {
+            message += $"{player.Nick}: {player.LaughPoints} Laugh Points\n";
+        }
+
+// Output the message
+        Console.WriteLine(message);
+        
         await Clients.Group(room.RoomId)
-            .SendAsync("GameEnded");
+            .SendAsync("GameEnded", message);
     }
     public List<Player> GetOtherPlayers(Room room, string connId)
     {
