@@ -34,8 +34,9 @@ public class Player
         return Result.Ok();
     }
 
-    public int PrepareLaugh(int value)
+    public int PrepareLaugh(int value, out List<int?> cardsToDelete)
     {
+        cardsToDelete = new List<int?>();
         int result = value;
         foreach (var card in PersistentSlot)
         {
@@ -44,6 +45,7 @@ public class Player
                 if (effect.EffectName.Equals("Buff"))
                 {
                     result += effect.Value;
+                    cardsToDelete.Add(card.DeckId);
                 }
                 
             }
@@ -74,11 +76,14 @@ public class Player
             }
         }
         laughReceived = laughReceived < 0 ? 0 : laughReceived;
+        LaughPoints += laughReceived;
+
     }
 
-    public int PrepareGrumpy(int value)
+    public int PrepareGrumpy(int value, out List<int?> cardsToDelete)
     {
         int result = value;
+        cardsToDelete = new List<int?>();
         foreach (var card in PersistentSlot)
         {
             foreach (Effect effect in card.EffectList)
@@ -86,6 +91,7 @@ public class Player
                 if (effect.EffectName.Equals("Buff"))
                 {
                     result += effect.Value;
+                    cardsToDelete.Add(card.DeckId);
                 }
                 
             }
@@ -115,5 +121,10 @@ public class Player
             }
         }
         grumpyReceived = grumpyReceived < 0 ? 0 : grumpyReceived;
+        LaughPoints -= grumpyReceived;
+        if (LaughPoints < 0)
+        {
+            LaughPoints = 0;
+        }
     }
 }
