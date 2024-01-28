@@ -151,6 +151,7 @@ public class GameHub : Hub
             // tutaj jest aktywny gracz w odpowiednim pokoju
             // Wyliczanie akcjki
             var activeCard = room.ActivePlayer.CardsOnHand.SingleOrDefault(card => card.DeckId == cardId);
+            Clients.Group(room.RoomId).SendAsync("LastCard", activeCard.URL);
 
             foreach (var effect in activeCard.EffectList)
             {
@@ -208,6 +209,15 @@ public class GameHub : Hub
         await Clients.Client(room.ActivePlayer.ConnectionID).SendAsync("TurnEnd");
 //         await Clients.Group(room.RoomId)
 //             .SendAsync("ReceiveServerRoomMessage", room.ActivePlayer.Nick + " - turn Ended");
+
+        foreach (var player in room.Players.Values)
+        {
+            if (player.LaughPoints > 14)
+            {
+                room.GameStarted = false;
+            }
+        }
+
         
         if (room.GameStarted)
         {
@@ -234,6 +244,8 @@ public class GameHub : Hub
         {
             await Clients.Client(player.ConnectionID)
                 .SendAsync("CardDrawn", card.DeckId, card.URL, card.Target);
+            await Clients.Group(room.RoomId)
+                .SendAsync("CardsLeft", room.Deck.GetCount());
             player.AddCardToHand(card);
         }
     }
@@ -253,9 +265,8 @@ public class GameHub : Hub
         var loser = sortedPlayersByPoints.Last();
 
 // Generate the message
-        var message = $"Congratulations to <b>{winner.Nick}</b> for being the ultimate poker face in the game! With only <b>{winner.LaughPoints}</b> Laugh Points, they are truly the hardest to crack a smile. Well played!</br>" +
-                      $"On the flip side, let's have a round of applause for <b>{loser.Nick}</b>. With a grand total of <b>{loser.LaughPoints}</b> Laugh Points, they've proven that laughter is indeed the best medicine... or they just have a really good sense of humor!<br>" +
-                      "Here's how everyone stacked up:<br>";
+        var message = $"<p>Kudos to <strong>{winner.Nick}</strong>, the stoic champ with just <strong>{winner.LaughPoints}</strong> points! 🏆</p>" +
+                      $"<p>Shoutout to <strong>{loser.Nick}</strong> for the biggest laugh tally of <strong>{loser.LaughPoints}</strong> points! 😄</p>";
 
 // Add the list of all players with their points
         foreach (var player in sortedPlayersByPoints)

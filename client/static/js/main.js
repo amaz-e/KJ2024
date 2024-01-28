@@ -127,6 +127,14 @@ function initReceiveMethods() {
         ShowEndGameScreen(message);
     });
 
+    connection.on("LastCard", function (url) {
+        ShowLastPlayedCard(url);
+    });
+
+    connection.on("CardsLeft", function (left) {
+        $('#cardInDeck').text(left);
+    });
+
     connection.on("TurnStarted", function () {
         yourTurn = true;
     });
@@ -198,11 +206,15 @@ function initSendMethods() {
         showCardPreview(this, true);
     });
 
+    $('#lastCard').on('mouseenter',  function () {
+        showCardPreview(this, false);
+    });
+
     $(document).on('mouseenter', '.otherPlayerPersistentCards .card', function () {
         showCardPreview(this, false);
     });
 
-    $(document).on('mouseleave', '.card', function () {
+    $(document).on('mouseleave', '.card, #lastCard', function () {
         hideCardPreview();
     });
 }
@@ -258,14 +270,19 @@ function addPlayerZone(playerName) {
     const nameElement = document.createElement('h3');
     nameElement.className = 'otherPlayerName';
     nameElement.textContent = playerName;
+    
+    const laughIconElement = document.createElement('img');
+    laughIconElement.className = 'laughIcon';
+    laughIconElement.src='../../smile.png';
 
-    const laughElement = document.createElement('h4');
+    const laughElement = document.createElement('h3');
     laughElement.textContent = "LP: " + 0;
     laughElement.className = 'points';
     const playerHandDiv = document.createElement('div');
     playerHandDiv.className = 'otherPlayerPersistentCards';
 
     playerDiv.appendChild(nameElement);
+    playerDiv.appendChild(laughIconElement);
     playerDiv.appendChild(laughElement);
     playerDiv.appendChild(playerHandDiv);
     playerZone.appendChild(playerDiv);
@@ -295,6 +312,13 @@ function PlacePersistentCard(deckId, url, target, owner) {
         const parentElement = document.querySelector('#playersZones .other.player[data-player-name="' + target + '"] .otherPlayerPersistentCards');
         parentElement.appendChild(card);
     }
+}
+
+function ShowLastPlayedCard(url){
+    let card = CreateCard('', url, '');
+
+     document.querySelector('#lastCard').innerHTML = card.innerHTML;
+
 }
 
 function RemoveCard(deckId, handOnly) {

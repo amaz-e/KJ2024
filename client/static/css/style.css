@@ -13,12 +13,12 @@ body {
     background-image: url("../../Background.webp");
     background-attachment: fixed;
     background-size: cover;
-    height: 98%;
+   
 }
 
 #lobby {
     
-    background:  rgba(42,178,217, .6);    
+    
     position: relative;
     width: 100%;
     min-height: 100%;
@@ -27,6 +27,7 @@ body {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+
 }
 
 .game-title {
@@ -56,13 +57,14 @@ body {
     display: none;
     flex-direction: column;
     position: relative;
-    overflow: hidden;
+    overflow: auto;
     width: 100%;
-    height: 100%;
+    
     background: linear-gradient(rgba(221,71,73, .6), rgba(42,178,217, .6) );
     z-index: 0;
     padding: 10px;
     box-sizing: border-box;
+    min-height: 100vh;
 }
 
 
@@ -82,6 +84,7 @@ body {
     z-index: 1;
     height: 200px;
     max-height: 200px;
+    max-height: 100%;
     overflow: auto;
     background: rgba(255,255,255,0.3);
 }
@@ -110,7 +113,7 @@ body {
 }
 
 #playersZones {
-    height: 250px;
+    height: 200px;
     display: flex;
     flex-direction: row;
 }
@@ -123,6 +126,7 @@ body {
 #playersZones .player {
     background: linear-gradient(rgba(221,71,73, .6), rgba(18, 77, 94, 0.6) );
     max-width: 33%;
+    height: 200px;
     flex-grow: 1;
     margin: 10px;
     text-align: center;	
@@ -130,19 +134,35 @@ body {
 	border-style: solid;
 }
 
- .player::before {
+#playersZones .player::before {
     left:5px;
     background-image: url("../../playericon.png");
 }
 
 .otherPlayerName {
+    text-align: left;
     font-family: 'Honk', sans-serif;
+    font-size: 22px;;
+}
+
+.points {
+    margin-left: 10px;
+    text-align: right;
+    font-family: 'Honk', sans-serif;
+    font-size: 22px;;
+}
+
+.laughIcon {
+    margin-left: 10px;
+    background-image: url("../../smile.png");
+    max-width: 30px;
 }
 
 .middle {
     flex-grow: 1;
     display: flex;
     flex-direction: row;
+    overflow: auto;
 }
 
 .middle .lastDetails {
@@ -151,8 +171,26 @@ body {
     flex-grow: 1;
 }
 
-.middle #lastCard {
-    width: 250px;
+.middle #lastCard, .middle #deck {
+    max-width: 250px;
+
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#cardInDeck {
+    position: absolute;
+    background: white;
+    padding: 20px;
+    border-radius: 60px;
+}
+
+.middle #lastCard img, .middle #deck img {
+    max-height: 200px;
+    margin: 0 25px;
 }
 
 .middle .lastMessage {
@@ -163,6 +201,7 @@ body {
     flex-direction: column;
     font-size: 38px;
     margin: 25px;
+    font-family: 'Honk', sans-serif;
 }
 
 #startGameButton {
@@ -191,8 +230,9 @@ body {
 }
 
 #playerZone .playerData {
-    flex: 0.5;
+    flex: 0.2;
     padding: 20px;
+    background: linear-gradient(rgba(221, 110, 112, 0.3), rgba(33, 130, 156, 0.3) );
 }
 
 #playerZone .playerRow {
@@ -254,6 +294,7 @@ body {
 }
 
 .player.focus {
+    cursor: pointer;
     border: 3px solid aqua !important;
 }
 

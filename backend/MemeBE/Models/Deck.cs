@@ -27,6 +27,10 @@ public class Deck
         return result;
     }
 
+    public int GetCount()
+    {
+        return deckCards.Count();
+    }
     public Card? DrawCard()
     {
         return deckCards.Dequeue();
