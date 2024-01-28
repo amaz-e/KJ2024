@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("MyCorsPolicy", builder =>
     {
-        builder.WithOrigins("https://nice-water-0ee9aa403.4.azurestaticapps.net", "http://localhost:63342") // URL innego serwera
+        builder.WithOrigins("https://nice-water-0ee9aa403.4.azurestaticapps.net", "http://localhost:63342", "https://memethegathering.wielki.ch/") // URL innego serwera
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials(); // Ważne dla SignalR
