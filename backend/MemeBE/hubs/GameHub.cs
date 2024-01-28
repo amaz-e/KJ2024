@@ -151,6 +151,7 @@ public class GameHub : Hub
             // tutaj jest aktywny gracz w odpowiednim pokoju
             // Wyliczanie akcjki
             var activeCard = room.ActivePlayer.CardsOnHand.SingleOrDefault(card => card.DeckId == cardId);
+            Clients.Group(room.RoomId).SendAsync("LastCard", activeCard.URL);
 
             foreach (var effect in activeCard.EffectList)
             {
