@@ -121,6 +121,11 @@ function initReceiveMethods() {
         document.querySelector('#playersZones .other.player[data-player-name="' + target + '"] .points').innerHTML = points;
     });
 
+    connection.on("GameEnded", function (message) {
+        yourTurn = false;
+        ShowEndGameScreen(message);
+    });
+
     connection.on("TurnStarted", function () {
         yourTurn = true;
     });
