@@ -201,6 +201,7 @@ body {
     flex-direction: column;
     font-size: 38px;
     margin: 25px;
+    font-family: 'Honk', sans-serif;
 }
 
 #startGameButton {
