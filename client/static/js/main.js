@@ -73,7 +73,7 @@ function initReceiveMethods() {
             $("#startGameButton").show();
         }
         $("#playerName").text(playerName);
-        $("#playerPersistentCards").data('player-name', playerName);
+        document.querySelector("#playerPersistentCards").setAttribute('data-player-name', playerName);
         otherPlayers.forEach((playerName) => addPlayerZone(playerName));
     });
 
@@ -110,6 +110,14 @@ function initReceiveMethods() {
     });
 
     connection.on("OtherTookLaugh", function (target, points) {
+        document.querySelector('#playersZones .other.player[data-player-name="' + target + '"] .points').innerHTML = points;
+    });
+
+    connection.on("TakeGrumpy", function (points) {
+        $("#playerHP").text(points);
+    });
+
+    connection.on("OtherTookGrumpy", function (target, points) {
         document.querySelector('#playersZones .other.player[data-player-name="' + target + '"] .points').innerHTML = points;
     });
 

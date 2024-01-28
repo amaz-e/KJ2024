@@ -55,9 +55,10 @@ public class Player
         return result;
     }
 
-    public void ReceiveLaugh(int laughValue)
+    public void ReceiveLaugh(int laughValue,out List<int?> cardsToDelete)
     {
         var laughReceived = laughValue;
+        cardsToDelete = new List<int?>();
         var cardsCopy = new List<Card>(PersistentSlot);
         PersistentSlot.Clear();
         foreach (var card in cardsCopy)
@@ -66,7 +67,9 @@ public class Player
             {
                 if (effect.EffectName.Equals("Shield"))
                 {
+                    Console.WriteLine("Shiled used laugh");
                     laughReceived -= effect.Value;
+                    cardsToDelete.Add(card.DeckId);
                 }
                 else
                 {
@@ -100,9 +103,10 @@ public class Player
         return result;
     }
 
-    public void ReceiveGrumpy(int grumpyValue)
+    public void ReceiveGrumpy(int grumpyValue,out List<int?> cardsToDelete)
     {
         var grumpyReceived = grumpyValue;
+        cardsToDelete = new List<int?>();
         var cardsCopy = new List<Card>(PersistentSlot);
         PersistentSlot.Clear();
         foreach (var card in cardsCopy)
@@ -111,7 +115,9 @@ public class Player
             {
                 if (effect.EffectName.Equals("Shield"))
                 {
+                    Console.WriteLine("Shiled used - Grumpy");
                     grumpyReceived -= effect.Value;
+                    cardsToDelete.Add(card.DeckId);
                 }
                 else
                 {
@@ -120,7 +126,11 @@ public class Player
                 
             }
         }
-        grumpyReceived = grumpyReceived < 0 ? 0 : grumpyReceived;
+
+        if (grumpyReceived < 0)
+        {
+            grumpyReceived = 0;
+        }
         LaughPoints -= grumpyReceived;
         if (LaughPoints < 0)
         {

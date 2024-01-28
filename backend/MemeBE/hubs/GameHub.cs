@@ -206,8 +206,8 @@ public class GameHub : Hub
     {
         Console.WriteLine("End turn - start");
         await Clients.Client(room.ActivePlayer.ConnectionID).SendAsync("TurnEnd");
-        await Clients.Group(room.RoomId)
-            .SendAsync("ReceiveServerRoomMessage", room.ActivePlayer.Nick + " - turn Ended");
+//         await Clients.Group(room.RoomId)
+//             .SendAsync("ReceiveServerRoomMessage", room.ActivePlayer.Nick + " - turn Ended");
         
         if (room.GameStarted)
         {
@@ -220,6 +220,7 @@ public class GameHub : Hub
         {
             GameEnded(room);
         }
+        Console.WriteLine("######################");
     }
     public async Task DrawCard(Player player, Room room)
     {
@@ -275,12 +276,15 @@ public class GameHub : Hub
 
     public async Task MakeLaugh(Room room, int value, string? targetNick = null)
     {
+        
         int laughValue = room.ActivePlayer.PrepareLaugh(value, out List<int?> cardsToDelete);
         if (string.IsNullOrEmpty(targetNick)) // all players
         {
+            Console.WriteLine("Make laugh to all");
             foreach (var player in room.Players.Values)
             {
-                player.ReceiveLaugh(laughValue);
+                Console.WriteLine("Player " +player.Nick +" is gone take laugh: " + laughValue);
+                player.ReceiveLaugh(laughValue,out List<int?> cardsToDeleteFromShieldBuff);
                 // Emit
                 await Clients.Client(player.ConnectionID).SendAsync("TakeLaugh",player.LaughPoints);
                 var otherPlayers = GetOtherPlayers(room, player.ConnectionID);
@@ -290,12 +294,18 @@ public class GameHub : Hub
                 }
                 await Clients.Group(room.RoomId)
                     .SendAsync("ReceiveServerRoomMessage", Helpers.GetLaughMessage(player.Nick, laughValue));
+                foreach (var cardId in cardsToDeleteFromShieldBuff)
+                {
+                    Clients.Group(room.RoomId).SendAsync("RemoveCard", cardId);
+                }
             }
         }
         else // Single player
         {
+            Console.WriteLine("Make laugh to " + targetNick);
             var targetPlayer = room.GetPlayerByNick(targetNick);
-            targetPlayer.ReceiveLaugh(laughValue);
+            Console.WriteLine("Player " +targetPlayer.Nick +" is gone take laugh: " + laughValue);
+            targetPlayer.ReceiveLaugh(laughValue, out List<int?> cardsToDeleteFromShieldBuff);
             // emit
             await Clients.Client(targetPlayer.ConnectionID).SendAsync("TakeLaugh",targetPlayer.LaughPoints);
             var otherPlayers = GetOtherPlayers(room, targetPlayer.ConnectionID);
@@ -305,12 +315,17 @@ public class GameHub : Hub
             }
             await Clients.Group(room.RoomId)
                 .SendAsync("ReceiveServerRoomMessage", Helpers.GetLaughMessage(targetPlayer.Nick, laughValue));
+            foreach (var cardId in cardsToDeleteFromShieldBuff)
+            {
+                Clients.Group(room.RoomId).SendAsync("RemoveCard", cardId);
+            }
         }
 
         foreach (var cardId in cardsToDelete)
         {
             Clients.Group(room.RoomId).SendAsync("RemoveCard", cardId);
         }
+        
         EndTurn(room);
     }
 
@@ -325,7 +340,8 @@ public class GameHub : Hub
             Console.WriteLine("MakeGrumpy - To All");
             foreach (var player in room.Players.Values)
             {
-                player.ReceiveGrumpy(grumpyValue);
+                Console.WriteLine("Player " +player.Nick +" is gone take laugh: " + grumpyValue);
+                player.ReceiveGrumpy(grumpyValue, out List<int?> cardsToDeleteFromShieldBuff);
                 // Emit
                 await Clients.Client(player.ConnectionID).SendAsync("TakeGrumpy",player.LaughPoints);
                 var otherPlayers = GetOtherPlayers(room, player.ConnectionID);
@@ -335,13 +351,18 @@ public class GameHub : Hub
                 }
                 await Clients.Group(room.RoomId)
                     .SendAsync("ReceiveServerRoomMessage", Helpers.GetGrumpyMessage(player.Nick, grumpyValue));
+                foreach (var cardId in cardsToDeleteFromShieldBuff)
+                {
+                    Clients.Group(room.RoomId).SendAsync("RemoveCard", cardId);
+                }
             }
         }
         else // Single player
         { 
-            Console.WriteLine("MakeGrumpy - To target");
+            Console.WriteLine("MakeGrumpy - To: " + targetNick);
+            Console.WriteLine("Player " +targetNick +" is gone take laugh: " + grumpyValue);
             var targetPlayer = room.GetPlayerByNick(targetNick);
-            targetPlayer.ReceiveGrumpy(grumpyValue);
+            targetPlayer.ReceiveGrumpy(grumpyValue,out List<int?> cardsToDeleteFromShieldBuff);
             // emit
             await Clients.Client(targetPlayer.ConnectionID).SendAsync("TakeGrumpy",targetPlayer.LaughPoints);
             var otherPlayers = GetOtherPlayers(room, targetPlayer.ConnectionID);
@@ -351,6 +372,10 @@ public class GameHub : Hub
             }
             await Clients.Group(room.RoomId)
                 .SendAsync("ReceiveServerRoomMessage", Helpers.GetGrumpyMessage(targetPlayer.Nick, grumpyValue));
+            foreach (var cardId in cardsToDeleteFromShieldBuff)
+            {
+                Clients.Group(room.RoomId).SendAsync("RemoveCard", cardId);
+            }
         }
         foreach (var cardId in cardsToDelete)
         {
@@ -361,6 +386,7 @@ public class GameHub : Hub
 
     public async Task PlacePersistentCard(Room room, Card card, String targetNick)
     {
+        Console.WriteLine("Place persistant to "+ targetNick);
         var targetPlayer = room.GetPlayerByNick(targetNick);
         if (targetPlayer.AddCardToPersistentSlot(card).Sucess)
         {
