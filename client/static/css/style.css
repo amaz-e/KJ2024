@@ -17,8 +17,7 @@ body {
 }
 
 #lobby {
-    
-    
+
     position: relative;
     width: 100%;
     min-height: 100%;
@@ -229,6 +228,9 @@ body {
 }
 
 #playerZone .playerData {
+    text-align: left;
+    font-family: 'Honk', sans-serif;
+    font-size: 22px;;
     flex: 0.2;
     padding: 20px;
     background: linear-gradient(rgba(221, 110, 112, 0.3), rgba(33, 130, 156, 0.3) );
@@ -332,4 +334,12 @@ body {
 .rotating-text {
 
     animation: rotateText 2s linear; /* 'infinite' for looping */
+}
+
+#game-rules {
+    position: fixed;
+    top: 30%;
+    left: 30%;
+    width: 40%;
+    background-image: url('../../rules.png');
 }
