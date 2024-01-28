@@ -209,6 +209,15 @@ public class GameHub : Hub
         await Clients.Client(room.ActivePlayer.ConnectionID).SendAsync("TurnEnd");
 //         await Clients.Group(room.RoomId)
 //             .SendAsync("ReceiveServerRoomMessage", room.ActivePlayer.Nick + " - turn Ended");
+
+        foreach (var player in room.Players.Values)
+        {
+            if (player.LaughPoints > 14)
+            {
+                room.GameStarted = false;
+            }
+        }
+
         
         if (room.GameStarted)
         {

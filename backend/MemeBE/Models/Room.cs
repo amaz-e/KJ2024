@@ -52,7 +52,13 @@ public class Room
 
     public Result DrawCard(out Card cardDrawn)
     {
+        if (Deck.GetCount() < 1)
+        {
+            cardDrawn = null;
+            return Result.Fail("No more cards in deck");
+        }
         cardDrawn = Deck.DrawCard();
+        
         if (cardDrawn == null)
         {
             return Result.Fail("No more cards in deck");
