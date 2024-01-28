@@ -166,6 +166,10 @@ public class GameHub : Hub
                             await Clients.Caller.SendAsync("RoomError", "No no no no - You can't make moves like that");
                             break;
                     }
+
+                    
+                    // wyslać info do frontendu eby usunał kartę
+                    Clients.Group(room.RoomId).SendAsync("RemoveCard", cardId);
                 }
                 if (ActiveCard.Target == 1) // Attack actions
                 {
@@ -181,13 +185,19 @@ public class GameHub : Hub
                             await Clients.Caller.SendAsync("RoomError", "No no no no - You can't make moves like that");
                             break;
                     }
+                    
+                    // wyslać info do frontendu eby usunał kartę
+                    Clients.Group(room.RoomId).SendAsync("RemoveCard", cardId);
                 }
                 else if (ActiveCard.Target == 2) // Actions on player persistent slot
                 {
                     PlacePersistentCard(room, ActiveCard, targetNick);
-                    
+
+                    // poinformuj wszystkich ze tej karty juz neima 
+                    Clients.Group(room.RoomId).SendAsync("RemoveCard", cardId);
                 }
             }
+            room.ActivePlayer.CardsOnHand.Remove(ActiveCard);
         }
     }
     public async Task EndTurn(Room room)
@@ -234,7 +244,7 @@ public class GameHub : Hub
 
     public async Task MakeLaugh(Room room, int value, string? targetNick = null)
     {
-        int laughValue = room.ActivePlayer.PrepareLaugh(value);
+        int laughValue = room.ActivePlayer.PrepareLaugh(value, out List<int?> cardsToDelete);
         if (string.IsNullOrEmpty(targetNick)) // all players
         {
             foreach (var player in room.Players.Values)
@@ -257,13 +267,18 @@ public class GameHub : Hub
             await Clients.Group(room.RoomId)
                 .SendAsync("ReceiveServerRoomMessage", GetLaughMessage(targetPlayer.Nick, laughValue));
         }
+
+        foreach (var cardId in cardsToDelete)
+        {
+            Clients.Group(room.RoomId).SendAsync("RemoveCard", cardId);
+        }
         EndTurn(room);
     }
 
 
     public async Task MakeGrumpy(Room room, int value, string? targetNick = null)
     {
-        int grumpyValue = room.ActivePlayer.PrepareGrumpy(value);
+        int grumpyValue = room.ActivePlayer.PrepareGrumpy(value, out List<int?> cardsToDelete);
         if (string.IsNullOrEmpty(targetNick)) // all players
         {
             foreach (var player in room.Players.Values)
@@ -286,23 +301,26 @@ public class GameHub : Hub
             await Clients.Group(room.RoomId)
                 .SendAsync("ReceiveServerRoomMessage", GetGrumpyMessage(targetPlayer.Nick, grumpyValue));
         }
+        foreach (var cardId in cardsToDelete)
+        {
+            Clients.Group(room.RoomId).SendAsync("RemoveCard", cardId);
+        }
         EndTurn(room);
     }
 
     public async Task PlacePersistentCard(Room room, Card card, String targetNick)
     {
-        var player = room.GetPlayerByNick(targetNick);
-        if (player.AddCardToPersistentSlot(card).Sucess)
+        var targetPlayer = room.GetPlayerByNick(targetNick);
+        if (targetPlayer.AddCardToPersistentSlot(card).Sucess)
         {
-            await Clients.Client(player.ConnectionID).SendAsync("PlacedPersistant",card.DeckId, card.URL, card.Target);
-            var otherPlayers = GetOtherPlayers(room, player.ConnectionID).Select(player => player.Nick).ToList();
+            await Clients.Client(targetPlayer.ConnectionID).SendAsync("PlacedPersistent",card.DeckId, card.URL, card.Target);
+            var otherPlayers = GetOtherPlayers(room, targetPlayer.ConnectionID).Select(player => player.Nick).ToList();
             foreach (var nick in otherPlayers)
             {
-                await Clients.Client(room.GetPlayerByNick(nick).ConnectionID).SendAsync("OtherPlacedPersistant",card.DeckId, card.URL, card.Target);
+                await Clients.Client(room.GetPlayerByNick(nick).ConnectionID).SendAsync("OtherPlacedPersistent",card.DeckId, card.URL, targetNick);
             }
-            await Clients.OthersInGroup(room.RoomId).SendAsync("OtherPlacedPersistant",card.DeckId, card.URL, player.Nick);
             await Clients.Group(room.RoomId)
-                .SendAsync("ReceiveServerRoomMessage", GetPersistantMessage(player.Nick, card.EffectList[0].EffectName));
+                .SendAsync("ReceiveServerRoomMessage", GetPersistantMessage(targetPlayer.Nick, card.EffectList[0].EffectName));
         }
         EndTurn(room);
     }
