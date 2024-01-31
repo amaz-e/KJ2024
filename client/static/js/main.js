@@ -12,8 +12,8 @@ $(document).ready(function () {
 
 function initServer() {
     connection = new signalR.HubConnectionBuilder()
-        .withUrl("https://mtgapi.adamsiwek.pl/")
-        //.withUrl("https://magicthememeingapiprod.azurewebsites.net/GameHub")
+        //.withUrl("https://mtgapi.adamsiwek.pl/")
+        .withUrl("https://magicthememeingapiprod.azurewebsites.net/GameHub")
         // .withUrl("https://578d-87-206-130-93.ngrok-free.app/GameHub")
         .withAutomaticReconnect()
         .configureLogging(signalR.LogLevel.Information)
