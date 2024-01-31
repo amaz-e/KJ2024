@@ -13,7 +13,11 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("MyCorsPolicy", builder =>
     {
-        builder.WithOrigins("https://nice-water-0ee9aa403.4.azurestaticapps.net", "http://localhost:63342", "https://memethegathering.wielki.ch", "https://mtg.wielki.ch") // URL innego serwera
+        builder.WithOrigins("https://nice-water-0ee9aa403.4.azurestaticapps.net", 
+                            "http://localhost:63342", 
+                            "https://memethegathering.wielki.ch", 
+                            "https://mtg.wielki.ch",
+                            "https://mtgapi.adamsiwek.pl") // URL innego serwera
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials(); // Ważne dla SignalR
