@@ -38,8 +38,10 @@ steps:
     arguments: '--configuration $(buildConfiguration) --no-restore'
 
 - script: |
-    sudo systemctl start mtgapi.service
+    sudo systemctl stop mtgapi.service
     rm -rf $(deployPath)/*
+    sudo systemctl stop nginx
+    rm -rf $(htmlDeployPath)/*
   displayName: 'Clean Deployment Directory'
 - task: DotNetCoreCLI@2
   displayName: 'Publish .NET Core App'
@@ -49,11 +51,8 @@ steps:
     arguments: '--configuration $(buildConfiguration) --output $(deployPath) --no-build'
     zipAfterPublish: false
 
-#- script: |
-#    unzip -o $(deployPath)/MemeBE.zip -d $(deployPath)
-#  displayName: 'Unzip the Published App'
 
-# If you need to perform additional deployment steps, you can add them here:
+
 #- script: |
 #    sudo cp mtgapi.service /etc/systemd/system/mtgapi.service
 #    sudo systemctl daemon-reload
@@ -67,5 +66,6 @@ steps:
     TargetFolder: '$(htmlDeployPath)'
 
 - script: |
-    sudo systemctl restart nginx
-  displayName: 'Restart Nginx'
+    sudo systemctl start mtgapi.service
+    sudo systemctl start nginx
+  displayName: 'Start Nginx and mtgapi.service'
