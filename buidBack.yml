@@ -37,16 +37,21 @@ steps:
     projects: '$(solution)'
     arguments: '--configuration $(buildConfiguration) --no-restore'
 
+- script: |
+    sudo systemctl start mtgapi.service
+    rm -rf $(deployPath)/*
+  displayName: 'Clean Deployment Directory'
 - task: DotNetCoreCLI@2
   displayName: 'Publish .NET Core App'
   inputs:
     command: 'publish'
     projects: '$(solution)'
     arguments: '--configuration $(buildConfiguration) --output $(deployPath) --no-build'
+    zipAfterPublish: false
 
-- script: |
-    unzip -o $(deployPath)/MemeBE.zip -d $(deployPath)
-  displayName: 'Unzip the Published App'
+#- script: |
+#    unzip -o $(deployPath)/MemeBE.zip -d $(deployPath)
+#  displayName: 'Unzip the Published App'
 
 # If you need to perform additional deployment steps, you can add them here:
 #- script: |
