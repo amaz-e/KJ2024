@@ -9,7 +9,7 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  deployPath: '/var/www/mtgapi'
+  deployPath: '/srv/mtgapi'
   htmlSitePath: 'client' # Relative path in the repo to your HTML site
   htmlDeployPath: '/usr/share/nginx/html' # Nginx's serving directory
 
@@ -45,9 +45,11 @@ steps:
     arguments: '--configuration $(buildConfiguration) --output $(deployPath) --no-build'
 
 # If you need to perform additional deployment steps, you can add them here:
-- script: |
-    sudo systemctl restart mtgapi.service
-  displayName: 'Deploy Application and Restart Service'
+#- script: |
+#    sudo cp mtgapi.service /etc/systemd/system/mtgapi.service
+#    sudo systemctl daemon-reload
+#    sudo systemctl start mtgapi.service
+#  displayName: 'Deploy Application and Restart Service'
 
 - task: CopyFiles@2
   displayName: 'Copy HTML Site Files'
