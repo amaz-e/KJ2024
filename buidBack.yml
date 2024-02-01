@@ -64,7 +64,9 @@ steps:
   displayName: 'Copy HTML Site Files'
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)/$(htmlSitePath)'
-    Contents: '**'
+    Contents: |
+      **
+      !**/.idea/** # Exclude .idea folder and all its contents
     TargetFolder: '$(htmlDeployPath)'
 
 - script: |
