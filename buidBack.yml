@@ -69,3 +69,4 @@ steps:
     sudo systemctl start mtgapi.service
     sudo systemctl start nginx
   displayName: 'Start Nginx and mtgapi.service'
+  
