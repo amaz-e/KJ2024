@@ -9,6 +9,9 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  deployPath: '/var/www/mtgapi'
+  htmlSitePath: 'client' # Relative path in the repo to your HTML site
+  htmlDeployPath: '/usr/share/nginx/html' # Nginx's serving directory
 
 steps:
 - task: UseDotNet@2
@@ -22,12 +25,37 @@ steps:
     versionSpec: '6.x' # Update to the latest compatible NuGet version for .NET 8
 
 - task: DotNetCoreCLI@2
+  displayName: 'Restore .NET Core App'
   inputs:
     command: 'restore'
     projects: '$(solution)'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Build .NET Core App'
   inputs:
     command: 'build'
     projects: '$(solution)'
     arguments: '--configuration $(buildConfiguration) --no-restore'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish .NET Core App'
+  inputs:
+    command: 'publish'
+    projects: '$(solution)'
+    arguments: '--configuration $(buildConfiguration) --output $(deployPath) --no-build'
+
+# If you need to perform additional deployment steps, you can add them here:
+- script: |
+    sudo systemctl restart mtgapi.service
+  displayName: 'Deploy Application and Restart Service'
+
+- task: CopyFiles@2
+  displayName: 'Copy HTML Site Files'
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/$(htmlSitePath)'
+    Contents: '**'
+    TargetFolder: '$(htmlDeployPath)'
+
+- script: |
+    sudo systemctl restart nginx
+  displayName: 'Restart Nginx'
