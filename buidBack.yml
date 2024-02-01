@@ -73,7 +73,6 @@ steps:
     Contents: |
       **
       !**/.idea/** # Exclude .idea folder and all its contents
-    TargetFolder: '$(htmlDeployPath)'
     ignoreMakeDirErrors: true
     TargetFolder: '$(htmlDeployPath)'
 
