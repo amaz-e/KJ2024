@@ -12,7 +12,7 @@ $(document).ready(function () {
 
 function initServer() {
     connection = new signalR.HubConnectionBuilder()
-         .withUrl("https://mtgapi.adamsiwek.pl//GameHub")
+         .withUrl("https://mtgapi.wielki.ch//GameHub")
         //.withUrl("https://magicthememeingapiprod.azurewebsites.net/GameHub")
         // .withUrl("https://578d-87-206-130-93.ngrok-free.app/GameHub")
         .withAutomaticReconnect()
