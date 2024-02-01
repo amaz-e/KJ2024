@@ -2,8 +2,8 @@
 Description=mtgapi
 
 [Service]
-WorkingDirectory=/srv/mtgapi
-ExecStart=/snap/bin/dotnet /srv/mtgapi/MemeBE.dll
+WorkingDirectory=/srv/mtgapi/MemeBE/
+ExecStart=/snap/bin/dotnet /srv/mtgapi/MemeBE/MemeBE.dll
 Restart=always
 # Restart service after 10 seconds if the dotnet service crashes:
 RestartSec=10
