@@ -67,6 +67,14 @@ steps:
     Contents: |
       **
       !**/.idea/** # Exclude .idea folder and all its contents
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/$(htmlSitePath)'
+    Contents: |
+      **
+      !**/.idea/** # Exclude .idea folder and all its contents
+    TargetFolder: '$(htmlDeployPath)'
+    ignoreMakeDirErrors: true
     TargetFolder: '$(htmlDeployPath)'
 
 - script: |
