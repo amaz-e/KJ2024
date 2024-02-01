@@ -61,13 +61,6 @@ steps:
 #  displayName: 'Deploy Application and Restart Service'
 
 - task: CopyFiles@2
-  displayName: 'Copy HTML Site Files'
-  inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/$(htmlSitePath)'
-    Contents: |
-      **
-      !**/.idea/** # Exclude .idea folder and all its contents
-- task: CopyFiles@2
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)/$(htmlSitePath)'
     Contents: |
