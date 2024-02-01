@@ -1,0 +1,72 @@
+trigger:
+- develop
+- main
+
+pool:
+  name: Selfhosted
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  deployPath: '/srv/mtgapi'
+  htmlSitePath: 'client' # Relative path in the repo to your HTML site
+  htmlDeployPath: '/usr/share/nginx/html' # Nginx's serving directory
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.x' # Specify the version of the .NET SDK you need
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
+- task: NuGetToolInstaller@1
+  inputs:
+    versionSpec: '6.x' # Update to the latest compatible NuGet version for .NET 8
+
+- task: DotNetCoreCLI@2
+  displayName: 'Restore .NET Core App'
+  inputs:
+    command: 'restore'
+    projects: '$(solution)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build .NET Core App'
+  inputs:
+    command: 'build'
+    projects: '$(solution)'
+    arguments: '--configuration $(buildConfiguration) --no-restore'
+
+- script: |
+    sudo systemctl stop mtgapi.service
+    rm -rf $(deployPath)/*
+    sudo systemctl stop nginx
+    rm -rf $(htmlDeployPath)/*
+  displayName: 'Clean Deployment Directory'
+- task: DotNetCoreCLI@2
+  displayName: 'Publish .NET Core App'
+  inputs:
+    command: 'publish'
+    projects: '$(solution)'
+    arguments: '--configuration $(buildConfiguration) --output $(deployPath) --no-build'
+    zipAfterPublish: false
+
+
+
+#- script: |
+#    sudo cp mtgapi.service /etc/systemd/system/mtgapi.service
+#    sudo systemctl daemon-reload
+#    sudo systemctl start mtgapi.service
+#  displayName: 'Deploy Application and Restart Service'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/$(htmlSitePath)'
+    Contents: '**'
+    TargetFolder: '$(htmlDeployPath)'
+
+- script: |
+    sudo systemctl start mtgapi.service
+    sudo systemctl start nginx
+  displayName: 'Start Nginx and mtgapi.service'
+  
