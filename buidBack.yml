@@ -63,10 +63,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)/$(htmlSitePath)'
-    Contents: |
-      **
-      !**/.idea/** # Exclude .idea folder and all its contents
-    ignoreMakeDirErrors: true
+    Contents: '**'
     TargetFolder: '$(htmlDeployPath)'
 
 - script: |
