@@ -286,7 +286,7 @@ function addPlayerZone(playerName) {
     playerHandDiv.className = 'otherPlayerPersistentCards';
 
     playerDiv.appendChild(nameElement);
-    playerDiv.appendChild(laughIconElement);
+    // playerDiv.appendChild(laughIconElement); quick fix :) sorry :) 
     playerDiv.appendChild(laughElement);
     playerDiv.appendChild(playerHandDiv);
     playerZone.appendChild(playerDiv);
