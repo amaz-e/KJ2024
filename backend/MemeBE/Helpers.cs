@@ -24,6 +24,7 @@ public class Helpers
         // Skip the header row and start processing from the first data row
         for (int i = 0; i < lines.Length; i++)
         {
+            try {
             var columns = lines[i].Split(';');
 
             // Assuming the CSV format is: FirstName,LastName,Age
@@ -36,6 +37,9 @@ public class Helpers
 
             var person = new Card(id, displayName, url, effectList, target); 
             cardList.Add(person);
+            }catch{
+            Console.Writeln("Error reading card " + i);
+            }
         }
 
         Cards = cardList;
