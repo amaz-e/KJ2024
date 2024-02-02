@@ -38,7 +38,7 @@ public class Helpers
             var person = new Card(id, displayName, url, effectList, target); 
             cardList.Add(person);
             }catch{
-            Console.Writeln("Error reading card " + i);
+            Console.WriteLine("Error reading card " + i);
             }
         }
 
