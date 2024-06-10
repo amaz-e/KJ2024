@@ -18,7 +18,7 @@ builder.Services.AddCors(options =>
                             "https://memethegathering.wielki.ch", 
                             "https://mtg.wielki.ch",
                             "https://mtgapi.wielki.ch",
-                            "https://mtgapi.adamsiwek.pl"
+                            "https://mtgapi.adamsiwek.pl",
                             "http://aemaze.studio/mtg/") // URL innego serwera
             .AllowAnyMethod()
             .AllowAnyHeader()
