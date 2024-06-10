@@ -19,7 +19,7 @@ builder.Services.AddCors(options =>
                             "https://mtg.wielki.ch",
                             "https://mtgapi.wielki.ch",
                             "https://mtgapi.adamsiwek.pl",
-                            "http://aemaze.studio/mtg/") // URL innego serwera
+                            "http://aemaze.studio") // URL innego serwera
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials(); // Ważne dla SignalR
